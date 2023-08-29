@@ -29,8 +29,15 @@ CREATE TABLE IF NOT EXISTS botanist (
 );
 
 
-CREATE TABLE plant (
+CREATE TABLE IF NOT EXISTS species (
     species_id SERIAL PRIMARY KEY,
+    scientific_name text NOT NULL UNIQUE
+    
+);
+
+CREATE TABLE plant (
+    plant_entry_id SERIAL PRIMARY KEY,
+    species_id SMALLINT NOT NULL,
     temperature FLOAT,
     soil_moisture FLOAT,
     humidity FLOAT,
@@ -47,19 +54,8 @@ CREATE TABLE plant (
             REFERENCES botanist(botanist_id),
     CONSTRAINT fk_cycle_id
         FOREIGN KEY(cycle_id)
-            REFERENCES cycle(cycle_id)
-);
-
-
-CREATE TABLE IF NOT EXISTS species (
-    species_name_id SERIAL PRIMARY KEY,
-    scientific_name text NOT NULL UNIQUE,
-    species_id SMALLINT NOT NULL UNIQUE,
+            REFERENCES cycle(cycle_id),
     CONSTRAINT fk_species_id
         FOREIGN KEY(species_id)
-            REFERENCES plant(species_id)
+            REFERENCES species(species_id)
 );
-
-
-
-
