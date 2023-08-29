@@ -26,3 +26,7 @@ The following environment variables must be supplied in a `.env` file.
 ```sh
 python3 archive.py
 ```
+
+## Assumptions and design decisions
+
+The script has been written for the purpose of managing a data pipeline for the Liverpool Natural History Museum. Therefore the timezone has been assumed to be London. This timezone determines what is considered to be data from the last twenty four hours.
