@@ -1,15 +1,14 @@
 """Live Pipeline Load File"""
 from os import environ
 from boto3 import client
-from botocore.client import BaseClient
 from dotenv import load_dotenv
 
 def send_email(config, task: str, message: str):
     """Function that sends out emails"""
     if not isinstance(task, str):
-        raise Exception("Task should be a string")
+        raise ValueError("Task should be a string")
     if not isinstance(message, str):
-        raise Exception("Message should be a string")
+        raise ValueError("Message should be a string")
     email = client('ses', aws_access_key_id=config["ACCESS_KEY_ID"],
                    aws_secret_access_key=config["SECRET_ACCESS_KEY"])
     response = email.send_email(
