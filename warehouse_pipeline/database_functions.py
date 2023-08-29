@@ -4,7 +4,7 @@ from psycopg2.extras import RealDictCursor
 
 
 def get_db_connection(config):
-    """Connect to the database with pokemon data"""
+    """Connect to the database with plant data"""
     try:
         return connect(
             user=config['DATABASE_USERNAME'],
