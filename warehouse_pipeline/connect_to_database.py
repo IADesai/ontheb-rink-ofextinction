@@ -48,7 +48,7 @@ def add_botanist_information(conn, botanist_info: dict):
 
 
 def add_species_information(conn, species_info: dict):
-    """function to add botanist info to psql"""
+    """function to add species info to psql"""
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         cur.execute(
             """SELECT exists (SELECT 1 FROM species WHERE scientific_name = %s LIMIT 1);""", [species_info['scientific_name']])
