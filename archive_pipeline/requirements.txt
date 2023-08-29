@@ -1,0 +1,5 @@
+pytest
+pytest-cov
+pylint
+psycopg2-binary
+python-dotenv
