@@ -1,7 +1,6 @@
 """libraries required to connect to database"""
 from psycopg2 import connect
 from psycopg2.extras import RealDictCursor
-from dotenv import dotenv_values
 
 
 def get_db_connection(config):
@@ -91,8 +90,3 @@ def add_plant_information(conn, plant_record: dict):
             plant_record['recording_taken'], sunlight_id, botanist_id, cycle_id)
         conn.commit()
         cur.close()
-
-
-if __name__ == '__main__':
-    configuration = dotenv_values()
-    connection = get_db_connection(configuration)
