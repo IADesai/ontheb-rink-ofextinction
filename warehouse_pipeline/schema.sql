@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS species (
     
 );
 
+
 CREATE TABLE plant (
     plant_entry_id SERIAL PRIMARY KEY,
     species_id SMALLINT NOT NULL,

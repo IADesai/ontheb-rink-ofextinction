@@ -5,7 +5,7 @@ from dotenv import dotenv_values
 
 
 def get_db_connection(config):
-    """connect to the database with pokemon data"""
+    """Connect to the database with pokemon data"""
     try:
         return psycopg2.connect(
             user=config['DATABASE_USERNAME'],
@@ -18,7 +18,7 @@ def get_db_connection(config):
 
 
 def add_cycle_information(conn, cycle_name: str):
-    """function to add cycle data to psql"""
+    """Add cycle data to database"""
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         cur.execute(
             """SELECT exists (SELECT 1 FROM cycle WHERE cycle_name = %s LIMIT 1);""", [cycle_name])
@@ -33,7 +33,7 @@ def add_cycle_information(conn, cycle_name: str):
 
 
 def add_botanist_information(conn, botanist_info: dict):
-    """function to add botanist info to psql"""
+    """Add botanist info to database"""
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         cur.execute(
             """SELECT exists (SELECT 1 FROM botanist WHERE b_email = %s LIMIT 1);""", botanist_info['email'])
@@ -48,7 +48,7 @@ def add_botanist_information(conn, botanist_info: dict):
 
 
 def add_species_information(conn, species_info: dict):
-    """function to add species info to psql"""
+    """Add species info to database"""
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         cur.execute(
             """SELECT exists (SELECT 1 FROM species WHERE scientific_name = %s LIMIT 1);""", [species_info['scientific_name']])
@@ -63,7 +63,7 @@ def add_species_information(conn, species_info: dict):
 
 
 def add_plant_information(conn, plant_record: dict):
-    """function to add plant data to psql"""
+    """Add plant data to database"""
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         cur.execute(
             """SELECT sunlight_id FROM sunlight WHERE s_description = %s;""", [plant_record['sunlight']])
