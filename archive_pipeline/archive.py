@@ -14,8 +14,25 @@ def get_database_connection(config: dict): # pragma: no cover
             host=config['DATABASE_IP'],
             port=config['DATABASE_PORT'],
             database=config['DATABASE_NAME'])
-    except ValueError:
-        return "Error connecting to database."
+    except ValueError as err:
+        print("Error connecting to database: ", err)
+        exit()
+
+
+def delete_old_rows(conn, delete_timestamp: str) -> dict:
+    """Removes rows from the Plant table that are older than a day.
+
+    Returns the deleted rows.
+    """
+    with conn.cursor(cursor_factory=RealDictCursor) as cur:
+        cur.execute(
+            """DELETE FROM plant
+            WHERE recording_taken < %s
+            RETURNING *;""", delete_timestamp)
+        deleted_rows = cur.fetchall()
+        conn.commit()
+        cur.close()
+        return deleted_rows
 
 
 if __name__ == "__main__": # pragma: no cover
