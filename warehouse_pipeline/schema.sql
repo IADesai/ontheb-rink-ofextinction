@@ -1,12 +1,5 @@
-CREATE DATABASE plants;
-\c plants
-
-
-CREATE TABLE IF NOT EXISTS species (
-    species_name_id SERIAL PRIMARY KEY,
-    scientific_name text NOT NULL UNIQUE,
-    species_id SMALLINT NOT NULL UNIQUE
-);
+CREATE DATABASE plant_data;
+\c plant_data
 
 
 CREATE TABLE IF NOT EXISTS sunlight (
@@ -48,6 +41,16 @@ CREATE TABLE plant (
     CONSTRAINT fk_cycle_id
         FOREIGN KEY(cycle_id)
             REFERENCES cycle(cycle_id)
+);
+
+
+CREATE TABLE IF NOT EXISTS species (
+    species_name_id SERIAL PRIMARY KEY,
+    scientific_name text NOT NULL UNIQUE,
+    species_id SMALLINT NOT NULL UNIQUE
+    CONSTRAINT fk_species_id
+        FOREIGN KEY(species_id)
+            REFERENCES plant(species_id)
 );
 
 
