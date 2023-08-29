@@ -1,5 +1,8 @@
 """Script for removing data older than 24 hours and saving older data to a .csv file."""
 
+from datetime import datetime, timedelta
+from pytz import timezone
+
 from dotenv import dotenv_values
 from psycopg2 import connect
 from psycopg2.extras import RealDictCursor
@@ -17,6 +20,14 @@ def get_database_connection(config: dict): # pragma: no cover
     except ValueError as err:
         print("Error connecting to database: ", err)
         exit()
+
+
+def get_previous_day_timestamp() -> str:
+    """Returns the timestamp of the previous day."""
+    current_datetime = datetime.now(tz=timezone("Europe/London"))
+    previous_day = current_datetime - timedelta(days=1)
+    previous_day_str = datetime.strftime(previous_day, "%Y-%m-%d %H:%M:%S")
+    return previous_day_str
 
 
 def delete_old_rows(conn, delete_timestamp: str) -> dict:
