@@ -1,4 +1,6 @@
 requests
 pytest
 requests-mock
+boto3
+python-dotenv
 pylint
