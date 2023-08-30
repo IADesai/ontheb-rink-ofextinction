@@ -32,6 +32,9 @@ def get_archived_data() -> pd.DataFrame:
         dfs.append(df)
 
     archived_plants_data = pd.concat(dfs, ignore_index=True)
+
+    # Delete all CSV files from the archived_data folder locally
+
     return archived_plants_data
 
 
