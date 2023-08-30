@@ -30,3 +30,5 @@ python3 archive.py
 ## Assumptions and design decisions
 
 The script has been written for the purpose of managing a data pipeline for the Liverpool Natural History Museum. Therefore the timezone has been assumed to be London. This timezone determines what is considered to be data from the last twenty four hours.
+
+When a .csv file is created for archiving purposes it receives a file name in the form `archived_YYYY_MM_DD.csv` where the date is the previous day.

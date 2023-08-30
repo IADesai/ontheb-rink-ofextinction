@@ -1,6 +1,6 @@
 """Script for removing data older than 24 hours and saving older data to a .csv file."""
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from pytz import timezone
 
 from dotenv import dotenv_values
@@ -50,7 +50,18 @@ def delete_old_rows(conn, delete_timestamp: str) -> list[tuple]: # pragma: no co
 
 def create_deleted_rows_dataframe(deleted_rows: list[tuple]) -> pd.DataFrame:
     """Returns a single DataFrame containing all the rows of the deleted data."""
-    return pd.DataFrame(deleted_rows, columns=CSV_COLUMNS)
+    archive_df = pd.DataFrame(deleted_rows, columns=CSV_COLUMNS)
+    if archive_df.empty:
+        raise ValueError("Empty DataFrame.")
+    return archive_df
+
+
+def create_csv_filename() -> str:
+    """Creates a filename for a .csv file with the previous day's date."""
+    today_date = date.today()
+    yesterday_date = today_date - timedelta(days=1) 
+    yesterday_date_str = datetime.strftime(yesterday_date, "%Y_%m_%d")
+    return "archived_" + yesterday_date_str + ".csv"
 
 
 def create_archived_csv_file(archived_df: pd.DataFrame, csv_filename: str) -> None:
@@ -66,6 +77,5 @@ if __name__ == "__main__": # pragma: no cover
     list_deleted_rows = delete_old_rows(connection, timestamp)
 
     deleted_rows_df = create_deleted_rows_dataframe(list_deleted_rows)
-    csv_filename = "archived_.csv"
-    create_archived_csv_file(deleted_rows_df, csv_filename)
-
+    archived_csv_filename = create_csv_filename()
+    create_archived_csv_file(deleted_rows_df, archived_csv_filename)
