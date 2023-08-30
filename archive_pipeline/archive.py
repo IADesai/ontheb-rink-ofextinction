@@ -1,6 +1,7 @@
 """Script for removing data older than 24 hours and saving older data to a .csv file."""
 
 import sys
+import os
 from datetime import datetime, timedelta, date
 from pytz import timezone
 
@@ -43,10 +44,11 @@ def delete_old_rows(conn, delete_timestamp: str) -> list[tuple]: # pragma: no co
     Returns the deleted rows.
     """
     with conn.cursor() as cur:
-        cur.execute(
-            """DELETE FROM plant
-            WHERE recording_taken < %s
-            RETURNING *;""", (delete_timestamp,))
+        # cur.execute(
+        #     """DELETE FROM plant
+        #     WHERE recording_taken < %s
+        #     RETURNING *;""", (delete_timestamp,))
+        cur.execute("""SELECT * FROM plant;""")
         deleted_rows = cur.fetchall()
         conn.commit()
         cur.close()
@@ -71,6 +73,9 @@ def create_csv_filename() -> str:
 
 def create_archived_csv_file(archived_df: pd.DataFrame, csv_filename: str) -> None:
     """Creates a .csv file from a Pandas dataframe."""
+    if os.path.exists(csv_filename):
+        print(f"A file already exists locally with the name {csv_filename}. " + 
+              "This file will be overwritten.")
     archived_df.to_csv(csv_filename, index=False)
 
 
