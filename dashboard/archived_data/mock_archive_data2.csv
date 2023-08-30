@@ -1,0 +1,3 @@
+plant_entry_id,species_id,temperature,soil_moisture,humidity,last_watered,recording_taken,sunlight_id,botanist_id,cycle_id
+7,1,20,20,20,2023-08-10 10:00:00,2023-08-30 09:00:00,1,1,1
+8,1,20,20,20,2023-08-10 10:00:00,2023-08-30 10:00:00,1,1,1
