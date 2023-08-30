@@ -4,3 +4,4 @@ requests-mock
 boto3
 python-dotenv
 pylint
+psycopg2-binary
