@@ -6,6 +6,7 @@ from pytz import timezone
 from dotenv import dotenv_values
 from psycopg2 import connect
 import pandas as pd
+from boto3 import client
 
 CSV_COLUMNS = ["plant_entry_id", "species_id", "temperature", "soil_moisture", "humidity", "last_watered", "recording_taken", "sunlight_id", "botanist_id", "cycle_id"]
 
@@ -69,6 +70,17 @@ def create_archived_csv_file(archived_df: pd.DataFrame, csv_filename: str) -> No
     archived_df.to_csv(csv_filename, index=False)
 
 
+def upload_csv_to_s3(csv_filename: str, config: dict) -> None: # pragma: no cover
+    """Uploads the created .csv file to an S3 bucket."""
+    print("Establishing connection to AWS.")
+    s3_client = client("s3", aws_access_key_id=config["ACCESS_KEY_ID"],
+                       aws_secret_access_key=config["SECRET_ACCESS_KEY"])
+    print("Connection established.")
+    print("Uploading .csv file.")
+    s3_client.upload_file(csv_filename, config["ARCHIVE_BUCKET_NAME"], csv_filename)
+    print(".csv file uploaded.")
+
+
 if __name__ == "__main__": # pragma: no cover
     configuration = dotenv_values()
     connection = get_database_connection(configuration)
@@ -79,3 +91,4 @@ if __name__ == "__main__": # pragma: no cover
     deleted_rows_df = create_deleted_rows_dataframe(list_deleted_rows)
     archived_csv_filename = create_csv_filename()
     create_archived_csv_file(deleted_rows_df, archived_csv_filename)
+    upload_csv_to_s3(archived_csv_filename, configuration)
