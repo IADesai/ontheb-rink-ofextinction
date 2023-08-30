@@ -30,16 +30,16 @@ def get_previous_day_timestamp() -> str:
     return previous_day_str
 
 
-def delete_old_rows(conn, delete_timestamp: str) -> dict:
+def delete_old_rows(conn, delete_timestamp: str) -> dict: # pragma: no cover
     """Removes rows from the Plant table that are older than a day.
 
     Returns the deleted rows.
     """
-    with conn.cursor(cursor_factory=RealDictCursor) as cur:
+    with conn.cursor() as cur:
         cur.execute(
             """DELETE FROM plant
             WHERE recording_taken < %s
-            RETURNING *;""", delete_timestamp)
+            RETURNING *;""", (delete_timestamp,))
         deleted_rows = cur.fetchall()
         conn.commit()
         cur.close()
@@ -49,3 +49,6 @@ def delete_old_rows(conn, delete_timestamp: str) -> dict:
 if __name__ == "__main__": # pragma: no cover
     configuration = dotenv_values()
     connection = get_database_connection(configuration)
+
+    timestamp = get_previous_day_timestamp()
+    deleted_rows = delete_old_rows(connection, timestamp)
