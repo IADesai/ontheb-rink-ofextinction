@@ -28,8 +28,8 @@ def get_archived_data() -> pd.DataFrame:
     dfs = []
 
     for csv in csv_files:
-        df = pd.read_csv("archived_data/"+csv)
-        dfs.append(df)
+        csv_to_df = pd.read_csv("archived_data/"+csv)
+        dfs.append(csv_to_df)
 
     archived_plants_data = pd.concat(dfs, ignore_index=True)
 
