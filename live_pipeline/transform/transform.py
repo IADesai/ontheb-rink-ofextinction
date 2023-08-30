@@ -1,7 +1,8 @@
+"""libraries required for transformation"""
 from datetime import datetime as dt
-import pandas as pd
 import json
 from os import environ
+import pandas as pd
 from boto3 import client
 from dotenv import load_dotenv
 
@@ -54,11 +55,11 @@ def create_dictionary_for_plant(raw_data: dict) -> dict:
     return plant_dict
 
 
-def create_list_for_data(data: json) -> list:
+def create_list_for_data(plant_data: json) -> list:
     """Create list for all plant data ready for a dataframe"""
     all_plant_data = []
-    for number in data.keys():
-        transformed_plant = create_dictionary_for_plant(data[number])
+    for number in plant_data.keys():
+        transformed_plant = create_dictionary_for_plant(plant_data[number])
         all_plant_data.append(transformed_plant)
     return all_plant_data
 
@@ -67,7 +68,7 @@ def validate_time_for_time_recorded(date: dt) -> dt | str:
     """Checks whether datetime is appropriate"""
     try:
         return dt.strptime(date, '%Y-%m-%d %H:%M:%S')
-    except:
+    except ValueError:
         return 'Invalid'
 
 
@@ -75,22 +76,22 @@ def validate_time_for_last_watered(date: dt) -> dt | str:
     """Check datetime for last watered is valid"""
     try:
         return dt.strptime(date, '%a, %d %b %Y %H:%M:%S %Z')
-    except:
+    except ValueError:
         return "Invalid"
 
 
 def send_alert(task: str, message: str):
+    """Sends alert email to the relevant botanist"""
     load_dotenv()
     config = environ
 
-    """Function that sends out emails"""
     if not isinstance(task, str):
         raise ValueError("Task should be a string")
     if not isinstance(message, str):
         raise ValueError("Message should be a string")
     email = client('ses', aws_access_key_id=config["ACCESS_KEY_ID"],
                    aws_secret_access_key=config["SECRET_ACCESS_KEY"])
-    response = email.send_email(
+    email.send_email(
         Source=config["EMAIL"],
         Destination={
             'ToAddresses': [
@@ -126,23 +127,23 @@ def check_temperature_within_correct_ranges(temperature: float) -> float | str:
     """Marks out invalid temperatures, those unlikely to be a fluctuation"""
     if temperature < LOWER_TEMP_LIMIT - 5:
         return 'Invalid'
-    elif temperature > UPPER_TEMP_LIMIT + 5:
+    if temperature > UPPER_TEMP_LIMIT + 5:
         return 'Invalid'
-    else:
-        return temperature
+
+    return temperature
 
 
 def check_soil_moisture_within_correct_ranges(soil_moisture: float) -> float | str:
     """Marks out invalid temperatures, those unlikely to be a fluctuation"""
     if soil_moisture < LOWER_SOIL_LIMIT - 5:
         return 'Invalid'
-    else:
-        return soil_moisture
+
+    return soil_moisture
 
 
 if __name__ == "__main__":
 
-    with open('plants.json', 'r') as f_obj:
+    with open('plants.json', 'r', encoding='utf-8') as f_obj:
         data = json.load(f_obj)
 
     all_plants = create_list_for_data(data)
