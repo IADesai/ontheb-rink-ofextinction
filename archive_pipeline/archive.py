@@ -30,7 +30,7 @@ def get_previous_day_timestamp() -> str:
     return previous_day_str
 
 
-def delete_old_rows(conn, delete_timestamp: str) -> dict: # pragma: no cover
+def delete_old_rows(conn, delete_timestamp: str) -> list[tuple]: # pragma: no cover
     """Removes rows from the Plant table that are older than a day.
 
     Returns the deleted rows.
