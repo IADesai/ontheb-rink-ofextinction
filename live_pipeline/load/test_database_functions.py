@@ -81,7 +81,7 @@ def test_add_plant_information():
                           {'sunlight': 'full sun', 'botanist': 'jeremy',
                            'cycle': 'perennial', 'scientific_name': 'test aurelia',
                                     'temp': 30, 'soil_moisture': 0.32, 'humidity': 5,
-                                    'last_watered': '28/05/2023', 'recording_taken': '30/08/2023'})
+                                    'last_watered': '2023-08-29 09:00:00', 'recording_taken': '2023-08-29 09:00:00'})
 
     assert fake_fetch.call_count == 4
     assert fake_execute.call_count == 5
