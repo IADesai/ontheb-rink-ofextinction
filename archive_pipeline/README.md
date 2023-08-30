@@ -19,6 +19,9 @@ The following environment variables must be supplied in a `.env` file.
 - `DATABASE_PASSWORD`
 - `DATABASE_IP`
 - `DATABASE_PORT`
+- `ACCESS_KEY_ID`
+- `SECRET_ACCESS_KEY`
+- `ARCHIVE_BUCKET_NAME`
 
 
 ## Run the code
