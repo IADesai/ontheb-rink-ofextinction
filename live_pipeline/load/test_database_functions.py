@@ -10,7 +10,7 @@ def test_add_cycle_info_if_false():
     fake_fetch.return_value = {'exists': False}
     fake_execute = fake_connection.cursor().__enter__().execute
 
-    result = add_cycle_information(fake_connection, 'test_cycle')
+    add_cycle_information(fake_connection, 'test_cycle')
 
     assert fake_fetch.call_count == 1
     assert fake_execute.call_count == 2
@@ -23,7 +23,7 @@ def test_add_cycle_info_if_true():
     fake_fetch.return_value = {'exists': True}
     fake_execute = fake_connection.cursor().__enter__().execute
 
-    result = add_cycle_information(fake_connection, 'test_cycle')
+    add_cycle_information(fake_connection, 'test_cycle')
 
     assert fake_fetch.call_count == 1
     assert fake_execute.call_count == 1
@@ -36,7 +36,7 @@ def test_add_botanist_information():
     fake_fetch.return_value = {'exists': False}
     fake_execute = fake_connection.cursor().__enter__().execute
 
-    result = add_botanist_information(fake_connection, {
+    add_botanist_information(fake_connection, {
         'name': 'test', 'email': 'test@gmail.com', 'phone': '406-2555-562'})
 
     assert fake_fetch.call_count == 1
@@ -50,7 +50,7 @@ def test_add_botanist_information_if_true():
     fake_fetch.return_value = {'exists': True}
     fake_execute = fake_connection.cursor().__enter__().execute
 
-    result = add_botanist_information(fake_connection, {
+    add_botanist_information(fake_connection, {
         'name': 'test', 'email': 'test@gmail.com', 'phone': '406-2555-562'})
 
     assert fake_fetch.call_count == 1
@@ -64,7 +64,7 @@ def test_add_species_information():
     fake_fetch.return_value = {'exists': False}
     fake_execute = fake_connection.cursor().__enter__().execute
 
-    result = add_species_information(fake_connection, {
+    add_species_information(fake_connection, {
         'scientific_name': 'test aurelia'})
 
     assert fake_fetch.call_count == 1
@@ -77,8 +77,11 @@ def test_add_plant_information():
     fake_fetch = fake_connection.cursor().__enter__().fetchone
     fake_execute = fake_connection.cursor().__enter__().execute
 
-    result = add_plant_information(fake_connection, {'sunlight': 'full sun', 'botanist': 'jeremy', 'cycle': 'perennial', 'scientific_name': 'test aurelia',
-                                   'temp': 30, 'soil_moisture': 0.32, 'humidity': 5, 'last_watered': '28/05/2023', 'recording_taken': '30/08/2023'})
+    add_plant_information(fake_connection,
+                          {'sunlight': 'full sun', 'botanist': 'jeremy',
+                           'cycle': 'perennial', 'scientific_name': 'test aurelia',
+                                    'temp': 30, 'soil_moisture': 0.32, 'humidity': 5,
+                                    'last_watered': '28/05/2023', 'recording_taken': '30/08/2023'})
 
     assert fake_fetch.call_count == 4
     assert fake_execute.call_count == 5
