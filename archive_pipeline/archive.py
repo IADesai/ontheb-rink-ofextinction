@@ -5,7 +5,9 @@ from pytz import timezone
 
 from dotenv import dotenv_values
 from psycopg2 import connect
-from psycopg2.extras import RealDictCursor
+import pandas as pd
+
+CSV_COLUMNS = ["plant_entry_id", "species_id", "temperature", "soil_moisture", "humidity", "last_watered", "recording_taken", "sunlight_id", "botanist_id", "cycle_id"]
 
 
 def get_database_connection(config: dict): # pragma: no cover
@@ -46,9 +48,17 @@ def delete_old_rows(conn, delete_timestamp: str) -> list[tuple]: # pragma: no co
         return deleted_rows
 
 
+def create_deleted_rows_dataframe(deleted_rows: list[tuple]) -> pd.DataFrame:
+    """Returns a single DataFrame containing all the rows of the deleted data."""
+    return pd.DataFrame(deleted_rows, columns=CSV_COLUMNS)
+
+
 if __name__ == "__main__": # pragma: no cover
     configuration = dotenv_values()
     connection = get_database_connection(configuration)
 
     timestamp = get_previous_day_timestamp()
-    deleted_rows = delete_old_rows(connection, timestamp)
+    list_deleted_rows = delete_old_rows(connection, timestamp)
+
+    deleted_rows_df = create_deleted_rows_dataframe(list_deleted_rows)
+
