@@ -53,6 +53,11 @@ def create_deleted_rows_dataframe(deleted_rows: list[tuple]) -> pd.DataFrame:
     return pd.DataFrame(deleted_rows, columns=CSV_COLUMNS)
 
 
+def create_archived_csv_file(archived_df: pd.DataFrame, csv_filename: str) -> None:
+    """Creates a .csv file from a Pandas dataframe."""
+    archived_df.to_csv(csv_filename, index=False)
+
+
 if __name__ == "__main__": # pragma: no cover
     configuration = dotenv_values()
     connection = get_database_connection(configuration)
@@ -61,4 +66,6 @@ if __name__ == "__main__": # pragma: no cover
     list_deleted_rows = delete_old_rows(connection, timestamp)
 
     deleted_rows_df = create_deleted_rows_dataframe(list_deleted_rows)
+    csv_filename = "archived_.csv"
+    create_archived_csv_file(deleted_rows_df, csv_filename)
 
