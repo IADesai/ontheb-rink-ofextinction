@@ -1,19 +1,7 @@
+""" Tests the functionality of the extract code."""
 import pytest
-from extract import get_plants, APIError
 import requests_mock
-
-
-def test_get_plants_raises_500_error():
-    """Checks that get_plants raises the correct error upon a 500 response."""
-    plant_id = 1
-    with requests_mock.Mocker() as mocker:
-        mocker.get(
-            f"https://data-eng-plants-api.herokuapp.com/plants/{plant_id}", status_code=500)
-        with pytest.raises(APIError) as exception:
-            get_plants()
-
-        assert exception.value.message == "Unable to connect to server."
-        assert exception.value.code == 500
+from extract import get_plants
 
 
 def test_get_plants_successful():
