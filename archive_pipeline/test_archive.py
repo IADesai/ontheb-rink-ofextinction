@@ -6,7 +6,7 @@ from unittest.mock import patch
 import pytest
 import pandas as pd
 
-from archive import get_previous_day_timestamp, create_deleted_rows_dataframe
+from archive import get_previous_day_timestamp, create_deleted_rows_dataframe, create_csv_filename
 
 
 def test_timestamp_returns_string():
@@ -40,3 +40,9 @@ def test_exception_raised_empty_dataframe():
     deleted_rows = []
     with pytest.raises(ValueError):
         create_deleted_rows_dataframe(deleted_rows)
+
+def test_csv_file_name_includes_correct_date_formatting():
+    """Tests the date formatting is correct in the csv filename."""
+    res = create_csv_filename()
+    assert len(res) == 23
+    assert match(r"archived_\d{4}_\d{2}_\d{2}\.csv", res)
