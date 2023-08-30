@@ -2,11 +2,12 @@
 
 from re import match
 from unittest.mock import patch
+import os
 
 import pytest
 import pandas as pd
 
-from archive import get_previous_day_timestamp, create_deleted_rows_dataframe, create_csv_filename
+from archive import get_previous_day_timestamp, create_deleted_rows_dataframe, create_csv_filename, create_archived_csv_file
 
 
 def test_timestamp_returns_string():
@@ -41,8 +42,18 @@ def test_exception_raised_empty_dataframe():
     with pytest.raises(ValueError):
         create_deleted_rows_dataframe(deleted_rows)
 
+
 def test_csv_file_name_includes_correct_date_formatting():
     """Tests the date formatting is correct in the csv filename."""
     res = create_csv_filename()
     assert len(res) == 23
     assert match(r"archived_\d{4}_\d{2}_\d{2}\.csv", res)
+
+
+def test_csv_file_created():
+    """Tests a .csv file is added to the local directory."""
+    assert not os.path.exists("unit_test_csv.csv")
+    df = pd.DataFrame({"a": [1, 2], "b": [3, 4]})
+    create_archived_csv_file(df, "unit_test_csv.csv")
+    assert os.path.exists("unit_test_csv.csv")
+    os.remove("unit_test_csv.csv")
