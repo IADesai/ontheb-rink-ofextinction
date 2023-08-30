@@ -1,4 +1,6 @@
-"""Contains unit tests to be run with pytest for the functions relating to the archiving of data older than 24 hours."""
+"""Contains unit tests to be run with pytest.
+Unit tests for the functions relating to the archiving of data older than 24 hours.
+"""
 
 from re import match
 from unittest.mock import patch
@@ -7,7 +9,8 @@ import os
 import pytest
 import pandas as pd
 
-from archive import get_previous_day_timestamp, create_deleted_rows_dataframe, create_csv_filename, create_archived_csv_file
+from archive import (get_previous_day_timestamp, create_deleted_rows_dataframe,
+                      create_csv_filename, create_archived_csv_file)
 
 
 def test_timestamp_returns_string():
@@ -53,7 +56,7 @@ def test_csv_file_name_includes_correct_date_formatting():
 def test_csv_file_created():
     """Tests a .csv file is added to the local directory."""
     assert not os.path.exists("unit_test_csv.csv")
-    df = pd.DataFrame({"a": [1, 2], "b": [3, 4]})
-    create_archived_csv_file(df, "unit_test_csv.csv")
+    mock_df = pd.DataFrame({"a": [1, 2], "b": [3, 4]})
+    create_archived_csv_file(mock_df, "unit_test_csv.csv")
     assert os.path.exists("unit_test_csv.csv")
     os.remove("unit_test_csv.csv")

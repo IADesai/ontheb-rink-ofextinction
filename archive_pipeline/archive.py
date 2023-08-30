@@ -1,14 +1,18 @@
 """Script for removing data older than 24 hours and saving older data to a .csv file."""
 
+import sys
 from datetime import datetime, timedelta, date
 from pytz import timezone
+
 
 from dotenv import dotenv_values
 from psycopg2 import connect
 import pandas as pd
 from boto3 import client
 
-CSV_COLUMNS = ["plant_entry_id", "species_id", "temperature", "soil_moisture", "humidity", "last_watered", "recording_taken", "sunlight_id", "botanist_id", "cycle_id"]
+CSV_COLUMNS = ["plant_entry_id", "species_id", "temperature", "soil_moisture",
+                "humidity", "last_watered", "recording_taken", "sunlight_id",
+                "botanist_id", "cycle_id"]
 
 
 def get_database_connection(config: dict): # pragma: no cover
@@ -22,7 +26,7 @@ def get_database_connection(config: dict): # pragma: no cover
             database=config['DATABASE_NAME'])
     except ValueError as err:
         print("Error connecting to database: ", err)
-        exit()
+        sys.exit()
 
 
 def get_previous_day_timestamp() -> str:
@@ -60,7 +64,7 @@ def create_deleted_rows_dataframe(deleted_rows: list[tuple]) -> pd.DataFrame:
 def create_csv_filename() -> str:
     """Creates a filename for a .csv file with the previous day's date."""
     today_date = date.today()
-    yesterday_date = today_date - timedelta(days=1) 
+    yesterday_date = today_date - timedelta(days=1)
     yesterday_date_str = datetime.strftime(yesterday_date, "%Y_%m_%d")
     return "archived_" + yesterday_date_str + ".csv"
 
