@@ -84,13 +84,19 @@ def get_deleted_rows(conn, delete_timestamp: str) -> list[tuple]:  # pragma: no 
         return deleted_rows
 
 
-def select_and_delete_from_db(conn, delete_timestamp: str) -> list[tuple]:  # pragma: no cover
+def select_and_delete_from_db(conn, delete_timestamp: str, configuration: dict) -> list[tuple]:  # pragma: no cover
     """Removes rows from the plant table that are older than a day.
 
     SELECT is performed to maintain consistency with live databatase interactions in the dashboard.
     Returns the deleted rows.
     """
     rows_to_delete = get_deleted_rows(conn, delete_timestamp)
+
+    deleted_rows_df = create_deleted_rows_dataframe(rows_to_delete)
+    archived_csv_filename = create_csv_filename()
+    create_archived_csv_file(deleted_rows_df, archived_csv_filename)
+    upload_csv_to_s3(archived_csv_filename, configuration)
+
     deleted_rows = delete_old_rows(conn, delete_timestamp)
 
     if len(rows_to_delete) != len(deleted_rows):
@@ -140,9 +146,4 @@ if __name__ == "__main__":  # pragma: no cover
     connection = get_database_connection(configuration)
 
     timestamp = get_previous_day_timestamp()
-    list_deleted_rows = select_and_delete_from_db(connection, timestamp)
-
-    deleted_rows_df = create_deleted_rows_dataframe(list_deleted_rows)
-    archived_csv_filename = create_csv_filename()
-    create_archived_csv_file(deleted_rows_df, archived_csv_filename)
-    upload_csv_to_s3(archived_csv_filename, configuration)
+    select_and_delete_from_db(connection, timestamp, configuration)
