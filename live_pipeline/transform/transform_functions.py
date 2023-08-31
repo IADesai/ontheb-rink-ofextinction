@@ -66,8 +66,6 @@ def format_sun_choices(sunlight: list) -> str:
     else:
         sun_choices = sunlight[0].lower()
 
-    print(sun_choices)
-
     return sun_choices
 
 
@@ -120,7 +118,6 @@ def check_temperature_within_correct_ranges(temperature: float) -> float | str:
 def check_soil_moisture_within_correct_ranges(soil_moisture: float) -> float | str:
     """Marks out invalid temperatures, those unlikely to be a fluctuation"""
     if soil_moisture < LOWER_SOIL_LIMIT - 5:
-        print(soil_moisture)
         return None
 
     return soil_moisture
