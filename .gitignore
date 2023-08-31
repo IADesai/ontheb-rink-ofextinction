@@ -3,6 +3,7 @@ venv
 .terraform
 __pycache__
 .pytest_cache
+.coverage
 *.ipynb
 *.csv
 *.json
