@@ -1,6 +1,6 @@
 # Archive Pipeline
 
-This directory contains the code and supporting files for running the pipeline for removing old files from the database and archiving data in a AWS S3 Data Warehouse via .csv files.
+This directory contains the code and supporting files for running the pipeline for removing old rows (recording taken more than twenty four hours ago) from the database and archiving data in a AWS S3 Data Warehouse via .csv files.
 
 ## Configure environment
 
@@ -22,7 +22,6 @@ The following environment variables must be supplied in a `.env` file.
 - `ACCESS_KEY_ID`
 - `SECRET_ACCESS_KEY`
 - `ARCHIVE_BUCKET_NAME`
-
 
 ## Run the code
 

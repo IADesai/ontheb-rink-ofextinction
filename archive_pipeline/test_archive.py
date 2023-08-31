@@ -62,7 +62,7 @@ def test_csv_file_created():
     os.remove("unit_test_csv.csv")
 
 
-@patch("archive.get_deleted_rows")
+@patch("archive.get_rows_to_be_deleted")
 @patch("archive.create_deleted_rows_dataframe")
 @patch("archive.create_csv_filename")
 @patch("archive.create_archived_csv_file")

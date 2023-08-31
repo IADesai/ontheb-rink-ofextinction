@@ -56,7 +56,7 @@ def delete_old_rows(conn, delete_timestamp: str) -> list[tuple]:  # pragma: no c
         return deleted_rows
 
 
-def get_deleted_rows(conn, delete_timestamp: str) -> list[tuple]:  # pragma: no cover
+def get_rows_to_be_deleted(conn, delete_timestamp: str) -> list[tuple]:  # pragma: no cover
     """Returns the rows that were recorded more than a day ago."""
     with conn.cursor() as cur:
         print("Fetching data to archive from RDS.")
@@ -87,10 +87,10 @@ def get_deleted_rows(conn, delete_timestamp: str) -> list[tuple]:  # pragma: no 
 def select_and_delete_from_db(conn, delete_timestamp: str, configuration: dict) -> None:
     """Removes rows from the plant table that are older than a day.
 
-    SELECT is performed to maintain consistency with live databatase interactions in the dashboard.
+    SELECT is performed to maintain consistency with live database interactions in the dashboard.
     Function creates the .csv and uploads it to S3 before deleting any rows.
     """
-    rows_to_delete = get_deleted_rows(conn, delete_timestamp)
+    rows_to_delete = get_rows_to_be_deleted(conn, delete_timestamp)
 
     deleted_rows_df = create_deleted_rows_dataframe(rows_to_delete)
     archived_csv_filename = create_csv_filename()
@@ -120,7 +120,7 @@ def create_csv_filename() -> str:
 
 
 def create_archived_csv_file(archived_df: pd.DataFrame, csv_filename: str) -> None:
-    """Creates a .csv file from a Pandas dataframe."""
+    """Creates a .csv file from a Pandas DataFrame."""
     if os.path.exists(csv_filename):
         print(f"A file already exists locally with the name {csv_filename}. " +
               "This file will be overwritten.")
