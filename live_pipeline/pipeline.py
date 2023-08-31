@@ -1,3 +1,4 @@
+"""libraries needed for the overall pipeline script"""
 import json
 import time
 from dotenv import load_dotenv
@@ -8,6 +9,7 @@ from pipeline_functions import get_plants, create_list_for_data, validate_time_f
 
 
 def handler(event=None, context=None):
+    """Contains all the functions required to complete extract, transform and load"""
     start = time.time()
 
     data = get_plants()
