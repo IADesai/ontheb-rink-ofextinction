@@ -2,12 +2,12 @@
 from datetime import datetime as dt
 from os import environ
 import json
+import requests
 import pytz
 from boto3 import client
 from dotenv import load_dotenv
 from psycopg2 import connect
 from psycopg2.extras import RealDictCursor
-import requests
 
 
 START_ID = 1
