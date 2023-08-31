@@ -28,23 +28,23 @@ def handler(event=None, context=None):
     data_frame['Botanist_Name'] = data_frame['Botanist_Name'].apply(
         lambda x: x.title())
 
-    data_frame['Last_Watered'] = data_frame['Last_Watered'].apply(
-        lambda x: validate_time_for_last_watered(x))
+    data_frame['Last_Watered'] = data_frame['Last_Watered'].map(
+        validate_time_for_last_watered)
 
-    data_frame['Recording_Time'] = data_frame['Recording_Time'].apply(
-        lambda x: validate_time_for_time_recorded(x))
+    data_frame['Recording_Time'] = data_frame['Recording_Time'].map(
+        validate_time_for_time_recorded)
 
-    data_frame['Temperature'] = data_frame['Temperature'].apply(
-        lambda x: check_temperature_within_correct_ranges(x))
+    data_frame['Temperature'] = data_frame['Temperature'].map(
+        check_temperature_within_correct_ranges)
 
-    data_frame['Soil_Moisture'] = data_frame['Soil_Moisture'].apply(
-        lambda x: check_soil_moisture_within_correct_ranges(x))
+    data_frame['Soil_Moisture'] = data_frame['Soil_Moisture'].map(
+        check_soil_moisture_within_correct_ranges)
 
     clean_df = delete_rows_containing_invalid_data(data_frame)
 
     send_alerts_for_abnormal_results(clean_df)
 
-    clean_df.to_csv('/tmp/clean_data.csv')
+    clean_df.to_csv('clean_data.csv')
 
     load_dotenv()
     configuration = environ
