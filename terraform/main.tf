@@ -38,7 +38,7 @@ output "cohort-8-public-subnet-ids" {
 
 
 resource "aws_s3_bucket" "archive-bucket" {
-  bucket = "ontheb-rink-ofextinction-archive-tf"
+  bucket = "ontheb-rink-ofextinction-archive-terraform"
 }
 
 
@@ -67,7 +67,7 @@ resource "aws_lambda_function" "live-pipeline-lambda" {
   image_uri     = "129033205317.dkr.ecr.eu-west-2.amazonaws.com/brink_of_extinction_plants_application:latest" 
   architectures = ["x86_64"]
   package_type  = "Image"
-
+  timeout = 120
   environment {
     variables = {
       INITIAL_DATABASE  = var.initial_database
@@ -109,7 +109,7 @@ resource "aws_lambda_function" "archive-lambda" {
   image_uri     = "129033205317.dkr.ecr.eu-west-2.amazonaws.com/ontheb-rink-ofextinction-archive:latest"
   architectures = ["x86_64"]
   package_type  = "Image"
-
+  timeout = 120
   environment {
     variables = {
       EXAMPLE  = var.initial_database
@@ -124,9 +124,37 @@ resource "aws_lambda_function" "archive-lambda" {
 
 
 
-/*
+
 resource "aws_ecs_cluster" "cluster" {
   name = "ontheb-rink-ofextinction-cluster"
+}
+
+resource "aws_security_group" "security-group-dashboard" {
+  name        = "ontheb-rink-ofextinction-security-group-dashboard"
+  description = "A security group for the dashboard allowing access to port 80 and 8501, made using terraform"
+
+  vpc_id = data.aws_vpc.cohort-8-VPC.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 8501
+    to_port     = 8501
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 resource "aws_ecs_task_definition" "dashboard-task-definition" {
@@ -202,34 +230,6 @@ resource "aws_ecs_task_definition" "dashboard-task-definition" {
   ])
 }
 
-resource "aws_security_group" "security-group-dashboard" {
-  name        = "ontheb-rink-ofextinction-security-group-dashboard"
-  description = "A security group for the dashboard allowing access to port 80 and 8501, made using terraform"
-
-  vpc_id = data.aws_vpc.cohort-8-VPC.id
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 8501
-    to_port     = 8501
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
 resource "aws_ecs_service" "dashboard-ecs-service" {
   name            = "ontheb-rink-ofextinction-dashboard-service"
   cluster         = aws_ecs_cluster.cluster.id
@@ -247,33 +247,50 @@ resource "aws_ecs_service" "dashboard-ecs-service" {
     assign_public_ip = true
   }
 }
-*/
+
 
 
 
 resource "aws_iam_role" "scheduler-role" {
   name = "ontheb-rink-ofextinction-scheduler-role"
-
   assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Principal = {
-          Service = "scheduler.amazonaws.com",
-        },
-        Action = "sts:AssumeRole",
+  Version = "2012-10-17",
+  Statement = [
+    {
+      Effect = "Allow",
+      Principal = {
+        Service = "scheduler.amazonaws.com"
       },
-    ],
-  })
+      Action = "sts:AssumeRole"
+    }
+  ]
+})
+  inline_policy {
+    name = "ontheb-rink-ofextinction-inline-policy"
+
+    policy = jsonencode({
+	Version= "2012-10-17",
+	Statement = [
+		{
+			Effect= "Allow",
+			Action= "lambda:InvokeFunction"
+      Resource= [
+                "arn:aws:lambda:eu-west-2:129033205317:function:ontheb-rink-ofextinction-live-pipeline-lambda-tf:*",
+                "arn:aws:lambda:eu-west-2:129033205317:function:ontheb-rink-ofextinction-live-pipeline-lambda-tf"
+            ]
+		},
+    ]
+})
 }
+}
+
 
 resource "aws_scheduler_schedule" "live-pipeline-scheduler" {
   name                         = "ontheb-rink-ofextinction-live-pipeline-scheduler"
   schedule_expression_timezone = "Europe/London"
   description                  = "Schedule to run ETL pipeline every minute"
   state                        = "ENABLED"
-
+  
   flexible_time_window {
     mode = "OFF"
   }

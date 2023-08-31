@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 LOWER_TEMP_LIMIT = 9
 UPPER_TEMP_LIMIT = 40
 LOWER_SOIL_LIMIT = 21
-UPPER_SOIL_LIMIT = 40
 
 
 def create_dictionary_for_plant(raw_data: dict) -> dict:
