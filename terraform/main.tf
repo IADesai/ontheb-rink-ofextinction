@@ -64,7 +64,7 @@ resource "aws_iam_role" "live-pipeline-lambda-role" {
 resource "aws_lambda_function" "live-pipeline-lambda" {
   function_name = "ontheb-rink-ofextinction-live-pipeline-lambda-tf"
   role          = resource.aws_iam_role.live-pipeline-lambda-role.arn
-  image_uri     = "EXAMPLEEXAMPLEEXAMPLEEXAMPLEEXAMPLE" 
+  image_uri     = "129033205317.dkr.ecr.eu-west-2.amazonaws.com/brink_of_extinction_plants_application:latest" 
   architectures = ["x86_64"]
   package_type  = "Image"
 
@@ -76,6 +76,9 @@ resource "aws_lambda_function" "live-pipeline-lambda" {
       DATABASE_PORT     = var.database_port
       DATABASE_USERNAME = var.database_username
       DATABASE_IP       = var.database_ip
+      ACCESS_KEY_ID     = var.access_key_id
+      SECRET_ACCESS_KEY = var.secret_access_key
+      EMAIL             = var.email
     }
   }
 }
@@ -121,7 +124,7 @@ resource "aws_lambda_function" "archive-lambda" {
 
 
 
-
+/*
 resource "aws_ecs_cluster" "cluster" {
   name = "ontheb-rink-ofextinction-cluster"
 }
@@ -244,9 +247,26 @@ resource "aws_ecs_service" "dashboard-ecs-service" {
     assign_public_ip = true
   }
 }
+*/
 
 
 
+resource "aws_iam_role" "scheduler-role" {
+  name = "ontheb-rink-ofextinction-scheduler-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "scheduler.amazonaws.com",
+        },
+        Action = "sts:AssumeRole",
+      },
+    ],
+  })
+}
 
 resource "aws_scheduler_schedule" "live-pipeline-scheduler" {
   name                         = "ontheb-rink-ofextinction-live-pipeline-scheduler"
@@ -261,9 +281,8 @@ resource "aws_scheduler_schedule" "live-pipeline-scheduler" {
   schedule_expression = "cron(* * * * ? *)"
 
   target {
-  "FunctionName": "EXAMPLEEXAMPLEEXAMPLEEXAMPLEEXAMPLE",
-  "Payload": "",
-  "InvocationType": "Event"
+    arn      = "arn:aws:lambda:eu-west-2:129033205317:function:ontheb-rink-ofextinction-live-pipeline-lambda-tf"
+    role_arn = "arn:aws:iam::129033205317:role/ontheb-rink-ofextinction-scheduler-role"
   }
 }
 
@@ -280,8 +299,7 @@ resource "aws_scheduler_schedule" "archive-pipeline-schedule" {
   schedule_expression = "cron(5 0 * * ? *)"
 
   target {
-  "FunctionName": "arn:aws:lambda:eu-west-2:129033205317:function:ontheb-rink-ofextinction-archive",
-  "Payload": "",
-  "InvocationType": "Event"
+    arn      = "arn:aws:lambda:eu-west-2:129033205317:function:ontheb-rink-ofextinction-archive-lambda-tf"
+    role_arn = "arn:aws:iam::129033205317:role/ontheb-rink-ofextinction-scheduler-role"
   }
 }
