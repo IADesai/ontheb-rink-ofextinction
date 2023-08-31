@@ -34,9 +34,15 @@ output "cohort-8-public-subnet-ids" {
   ]
 }
 
+
+
+
 resource "aws_s3_bucket" "archive-bucket" {
   bucket = "ontheb-rink-ofextinction-archive-tf"
 }
+
+
+
 
 resource "aws_iam_role" "live-pipeline-lambda-role" {
   name = "ontheb-rink-ofextinction-live-pipeline-lambda-role-tf"
@@ -74,6 +80,9 @@ resource "aws_lambda_function" "live-pipeline-lambda" {
   }
 }
 
+
+
+
 resource "aws_iam_role" "archive-lambda-role" {
   name = "ontheb-rink-ofextinction-archive-lambda-role-tf"
 
@@ -109,3 +118,133 @@ resource "aws_lambda_function" "archive-lambda" {
     }
   }
 }
+
+
+
+
+resource "aws_ecs_cluster" "cluster" {
+  name = "ontheb-rink-ofextinction-cluster"
+}
+
+resource "aws_ecs_task_definition" "dashboard-task-definition" {
+  family       = "ontheb-rink-ofextinction-dashboard-task-definition"
+  network_mode = "awsvpc"
+
+  requires_compatibilities = ["FARGATE"]
+
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "X86_64"
+  }
+
+  cpu    = "1024"
+  memory = "3072"
+
+  execution_role_arn = "arn:aws:iam::129033205317:role/ecsTaskExecutionRole"
+
+  container_definitions = jsonencode([
+    {
+      name      = "ontheb-rink-ofextinction-dashboard",
+      image     = "EXAMPLEEXAMPLEEXAMPLEEXAMPLEEXAMPLE",
+      essential = true
+
+      portMappings = [
+        {
+          containerPort : 80,
+          hostPort : 80
+          protocol    = "tcp"
+          appProtocol = "http"
+        },
+        {
+          containerPort : 8501,
+          hostPort : 8501
+          protocol    = "tcp"
+          appProtocol = "http"
+        }
+      ]
+
+      environment = [
+        {
+          name  = "DATABASE_NAME"
+          value = var.database_name
+        },
+        {
+          name  = "DATABASE_IP"
+          value = var.database_ip
+        },
+        {
+          name  = "DATABASE_PORT"
+          value = var.database_port
+        },
+        {
+          name  = "DATABASE_USERNAME"
+          value = var.database_username
+        },
+        {
+          name  = "DATABASE_PASSWORD"
+          value = var.database_password
+        }
+      ]
+
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-create-group"  = "true"
+          "awslogs-group"         = "/ecs/"
+          "awslogs-region"        = "eu-west-2"
+          "awslogs-stream-prefix" = "ecs"
+        }
+      }
+    }
+  ])
+}
+
+resource "aws_security_group" "security-group-dashboard" {
+  name        = "ontheb-rink-ofextinction-security-group-dashboard"
+  description = "A security group for the dashboard allowing access to port 80 and 8501, made using terraform"
+
+  vpc_id = data.aws_vpc.cohort-8-VPC.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 8501
+    to_port     = 8501
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_ecs_service" "dashboard-ecs-service" {
+  name            = "ontheb-rink-ofextinction-dashboard-service"
+  cluster         = aws_ecs_cluster.cluster.id
+  task_definition = aws_ecs_task_definition.dashboard-task-definition.arn
+  launch_type     = "FARGATE"
+  desired_count   = 1
+
+  network_configuration {
+    subnets = [
+      data.aws_subnet.cohort-8-public-subnet-1.id,
+      data.aws_subnet.cohort-8-public-subnet-2.id,
+      data.aws_subnet.cohort-8-public-subnet-3.id
+    ]
+    security_groups  = [resource.aws_security_group.security-group-dashboard.id]
+    assign_public_ip = true
+  }
+}
+
+
+
+

@@ -1,7 +1,8 @@
-requests
-pytest
-requests-mock
 boto3
-python-dotenv
-pylint
+pandas
 psycopg2-binary
+pylint
+pytest
+python-dotenv
+requests
+requests-mock
