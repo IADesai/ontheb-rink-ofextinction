@@ -1,15 +1,14 @@
-FROM python
+FROM amazon/aws-lambda-python
+
+WORKDIR ${LAMBDA_TASK_ROOT}
 
 COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY ETL.sh .
 
-COPY extract/extract.py .
-COPY transform/transform.py .
-COPY transform/transform_functions.py .
-COPY load/load_to_database.py .
-COPY load/database_functions.py .
+COPY pipeline_functions.py .
+COPY pipeline.py .
 
-CMD bash ETL.sh
+# Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
+CMD [ "pipeline.handler" ]
