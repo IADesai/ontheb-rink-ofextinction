@@ -22,9 +22,23 @@ def fake_raw_plant_data():
         ],
         "plant_id": 532,
         "recording_taken": "2023-08-30 14:56:09",
-        "soil_moisture": 96.36114621062993,
         "temperature": "12.070482937725064"
     }
+
+
+@pytest.fixture
+def fake_sunlight_options():
+    return ['fake sun', 'fake SHade']
+
+
+@pytest.fixture
+def fake_float_valid():
+    return "23.47257"
+
+
+@pytest.fixture
+def fake_float_invalid():
+    return "invalid_fake"
 
 
 @pytest.fixture

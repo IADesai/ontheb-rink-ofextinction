@@ -35,35 +35,20 @@ def create_dictionary_for_plant(raw_data: dict) -> dict:
 
     if 'temperature' not in raw_data.keys():
         plant_dict['Temperature'] = '-'
-    if type(raw_data['temperature']) != float:
-        try:
-            plant_dict['Temperature'] = float(raw_data['temperature'])
-        except:
-            plant_dict['Temperature'] = '-'
     else:
-        plant_dict['Temperature'] = raw_data['temperature']
+        temperature = validate_float(raw_data['temperature'])
+        plant_dict['Temperature'] = temperature
 
     if 'soil_moisture' not in raw_data.keys():
         plant_dict['Soil_Moisture'] = '-'
-    if type(raw_data['soil_moisture']) != float:
-        try:
-            plant_dict['Soil_Moisture'] = float(raw_data['soil_moisture'])
-        except:
-            plant_dict['Soil_Moisture'] = '-'
-
-    plant_dict['Soil_Moisture'] = raw_data['soil_moisture']
+    else:
+        soil_moisture = validate_float(raw_data['soil_moisture'])
+        plant_dict['Soil_Moisture'] = soil_moisture
 
     if 'sunlight' not in raw_data.keys():
         plant_dict['Sunlight'] = '-'
     else:
-        sun_choices = ''
-        if len(raw_data['sunlight']) > 1:
-            for sun_type in sorted(raw_data['sunlight']):
-                sun_choices += sun_type.lower() + ', '
-            sun_choices = sun_choices[:-2]
-        else:
-            sun_choices = raw_data['sunlight'][0].lower()
-
+        sun_choices = format_sun_choices(raw_data['sunlight'])
         plant_dict['Sunlight'] = sun_choices
 
     if 'humidity' in raw_data.keys():
@@ -72,6 +57,30 @@ def create_dictionary_for_plant(raw_data: dict) -> dict:
         plant_dict['Humidity'] = '-'
 
     return plant_dict
+
+
+def format_sun_choices(sunlight: list) -> str:
+    """Takes list of sunlight given and formats to string"""
+    sun_choices = ''
+    if len(sunlight) > 1:
+        for sun_type in sorted(sunlight):
+            sun_choices += sun_type.lower() + ', '
+        sun_choices = sun_choices[:-2]
+    else:
+        sun_choices = sunlight[0].lower()
+
+    return sun_choices
+
+
+def validate_float(float_variable: float) -> float | str:
+    """Function to ensure temperature is correctly formatted"""
+    if float_variable != float:
+        try:
+            float_variable = float(float_variable)
+        except:
+            float_variable = '-'
+
+    return float_variable
 
 
 def create_list_for_data(plant_data: json) -> list:

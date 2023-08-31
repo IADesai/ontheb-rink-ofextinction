@@ -1,7 +1,7 @@
 """Test code for transform.py"""
 from unittest.mock import MagicMock
 import pytest
-from transform_functions import create_dictionary_for_plant, create_list_for_data, validate_time_for_time_recorded, validate_time_for_last_watered, check_temperature_within_correct_ranges, check_soil_moisture_within_correct_ranges, delete_rows_containing_invalid_data, send_alert
+from transform_functions import create_dictionary_for_plant, format_sun_choices, validate_float, create_list_for_data, validate_time_for_time_recorded, validate_time_for_last_watered, check_temperature_within_correct_ranges, check_soil_moisture_within_correct_ranges, delete_rows_containing_invalid_data, send_alert
 
 
 def test_dictionary_created_for_plant(fake_raw_plant_data):
@@ -11,7 +11,30 @@ def test_dictionary_created_for_plant(fake_raw_plant_data):
     assert isinstance(result, dict) is True
     assert result['Botanist_Name'] == 'Fake Person'
     assert result['Sunlight'] == '-'
+    assert result['Soil_Moisture'] == '-'
     assert isinstance(result["Temperature"], float) is True
+
+
+def test_format_sun_choices(fake_sunlight_options):
+    """Test to check sun choices are ordered and formatted appropriately"""
+    result = format_sun_choices(fake_sunlight_options)
+
+    assert isinstance(result, str) is True
+    assert result == "fake shade, fake sun"
+
+
+def test_validate_float(fake_float_valid):
+    """Validates float if passed in and return floats"""
+    result = validate_float(fake_float_valid)
+
+    assert result == float(fake_float_valid)
+
+
+def test_float_invalid(fake_float_invalid):
+    """Check string is return for invalid float"""
+    result = validate_float(fake_float_invalid)
+
+    assert result == "-"
 
 
 def test_create_list_for_data(fake_data):
