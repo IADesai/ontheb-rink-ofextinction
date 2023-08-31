@@ -10,15 +10,15 @@ The project is split into three sections:
 
 - **Live data processing pipeline.** This runs every minute as a Lambda function from an ECR repository hosted on AWS. GET requests are used to obtain the sensor data which is then cleaned and transformed before being inserted into an PostgreSQL RDS hosted on AWS.
 
-[Live data processing pipeline](live_pipeline.png)
+![Live data processing pipeline](live_pipeline.png)
 
 - **Archiving old data pipeline.** This runs every twenty four hours as a Lambda function from an ECR repository hosted on AWS. Entries older than twenty four hours are saved to a `.csv` file which is uploaded to an S3 bucket. These rows are then deleted from the RDS.
 
-[Archiving old data pipeline](archive_pipeline.png)
+![Archiving old data pipeline](archive_pipeline.png)
 
 - **Interactive dashboard.** This is a continuously running AWS ECS Service. The dashboard is written with Python and uses the Streamlit library. The Dashboard is configured to read in both recent data from the RDS as well as archived data from S3.
 
-[Interactive dashboard](dashboard.png)
+![Interactive dashboard](dashboard.png)
 
 ## Repository Configuration
 
