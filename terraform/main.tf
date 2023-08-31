@@ -38,7 +38,7 @@ output "cohort-8-public-subnet-ids" {
 
 
 resource "aws_s3_bucket" "archive-bucket" {
-  bucket = "ontheb-rink-ofextinction-archive-terraform"
+  bucket = "ontheb-rink-ofextinction-archive"
 }
 
 
@@ -176,7 +176,7 @@ resource "aws_ecs_task_definition" "dashboard-task-definition" {
   container_definitions = jsonencode([
     {
       name      = "ontheb-rink-ofextinction-dashboard",
-      image     = "EXAMPLEEXAMPLEEXAMPLEEXAMPLEEXAMPLE",
+      image     = "129033205317.dkr.ecr.eu-west-2.amazonaws.com/c8-on-the-brink-plant-dashboard-ecr",
       essential = true
 
       portMappings = [
@@ -283,7 +283,6 @@ resource "aws_iam_role" "scheduler-role" {
 })
 }
 }
-
 
 resource "aws_scheduler_schedule" "live-pipeline-scheduler" {
   name                         = "ontheb-rink-ofextinction-live-pipeline-scheduler"
