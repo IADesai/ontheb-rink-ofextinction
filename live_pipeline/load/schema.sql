@@ -1,5 +1,5 @@
-CREATE DATABASE plant_data;
-\c plant_data
+CREATE DATABASE plant_database;
+\c plant_database;
 
 
 CREATE TABLE IF NOT EXISTS sunlight (
@@ -9,10 +9,20 @@ CREATE TABLE IF NOT EXISTS sunlight (
 
 
 INSERT INTO sunlight(s_description)
-VALUES ('full sun'),
-        ('part shade'),
+VALUES ('-'),
+        ('full sun'),
+        ('full shade'),
         ('part sun'),
-        ('none');
+        ('part shade'),
+        ('part sun/part shade'),
+        ('full sun, part sun/part shade'),
+        ('part shade, part sun/part shade'),
+        ('full shade, part shade'),
+        ('filtered shade, full shade'),
+        ('filtered shade, part sun/part shade'),
+        ('full sun, part shade'),
+        ('part sun/part shade, full sun only if soil kept moist');
+       
 
 
 CREATE TABLE IF NOT EXISTS cycle (
@@ -25,13 +35,13 @@ CREATE TABLE IF NOT EXISTS botanist (
     botanist_id SERIAL PRIMARY KEY,
     b_name text NOT NULL,
     b_email text NOT NULL,
-    b_phone SMALLINT NOT NULL
+    b_phone text NOT NULL
 );
 
 
 CREATE TABLE IF NOT EXISTS species (
     species_id SERIAL PRIMARY KEY,
-    scientific_name text NOT NULL UNIQUE
+    s_name text NOT NULL UNIQUE
     
 );
 
@@ -41,7 +51,6 @@ CREATE TABLE plant (
     species_id SMALLINT NOT NULL,
     temperature FLOAT,
     soil_moisture FLOAT,
-    humidity FLOAT,
     last_watered TIMESTAMP,
     recording_taken TIMESTAMP NOT NULL,
     sunlight_id SMALLINT,
