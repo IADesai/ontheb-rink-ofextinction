@@ -31,6 +31,6 @@ if __name__ == "__main__":
 
     clean_df = delete_rows_containing_invalid_data(df)
 
-    send_alerts_for_abnormal_results(df)
+    send_alerts_for_abnormal_results(clean_df)
 
-    df.to_csv('practice.csv')
+    clean_df.to_csv('practice.csv')
