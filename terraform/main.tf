@@ -214,6 +214,18 @@ resource "aws_ecs_task_definition" "dashboard-task-definition" {
         {
           name  = "DATABASE_PASSWORD"
           value = var.database_password
+        },
+        {
+          name = "BUCKET_NAME"
+          value = var.bucket_name
+        },
+        {
+          name = "ACCESS_KEY_ID"
+          value = var.access_key_id
+        },
+        {
+          name = "SECRET_ACCESS_KEY"
+          value = var.secret_access_key
         }
       ]
 

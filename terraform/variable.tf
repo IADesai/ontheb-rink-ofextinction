@@ -49,3 +49,7 @@ variable "secret_access_key" {
 variable "email" {
   description = "Email address to send alerts to"
 }
+
+variable "bucket_name" {
+  description = "Name of s3 bucket to pull info from"
+}
