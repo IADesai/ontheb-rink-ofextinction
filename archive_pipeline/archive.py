@@ -121,10 +121,10 @@ def create_csv_filename() -> str:
 
 def create_archived_csv_file(archived_df: pd.DataFrame, csv_filename: str) -> None:
     """Creates a .csv file from a Pandas DataFrame."""
-    if os.path.exists(csv_filename):
+    if os.path.exists("/tmp/" + csv_filename):
         print(f"A file already exists locally with the name {csv_filename}. " +
               "This file will be overwritten.")
-    archived_df.to_csv(csv_filename, index=False)
+    archived_df.to_csv("/tmp/"+csv_filename, index=False)
 
 
 def upload_csv_to_s3(csv_filename: str, config: dict) -> None:  # pragma: no cover
@@ -135,8 +135,18 @@ def upload_csv_to_s3(csv_filename: str, config: dict) -> None:  # pragma: no cov
     print("Connection established.")
     print("Uploading .csv file.")
     s3_client.upload_file(
-        csv_filename, config["ARCHIVE_BUCKET_NAME"], csv_filename)
+        "/tmp/"+csv_filename, config["ARCHIVE_BUCKET_NAME"], csv_filename)
     print(".csv file uploaded.")
+
+
+def lambda_handler(event: dict = None, context=None) -> dict:
+    """Runs archiving pipeline."""
+    configuration = os.environ
+    connection = get_database_connection(configuration)
+
+    timestamp = get_previous_day_timestamp()
+    select_and_delete_from_db(connection, timestamp, configuration)
+    return {"archive_status": "success"}
 
 
 if __name__ == "__main__":  # pragma: no cover

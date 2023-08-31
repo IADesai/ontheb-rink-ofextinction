@@ -29,6 +29,20 @@ The following environment variables must be supplied in a `.env` file.
 python3 archive.py
 ```
 
+## Docker image
+
+Build the docker image
+
+```sh
+docker build -t archive-pipeline . --platform "linux/amd64"
+```
+
+Run the docker image locally
+
+```sh
+docker run --env-file .env -p 9000:8080 archive-pipeline
+```
+
 ## Assumptions and design decisions
 
 The script has been written for the purpose of managing a data pipeline for the Liverpool Natural History Museum. Therefore the timezone has been assumed to be London. This timezone determines what is considered to be data from the last twenty four hours.

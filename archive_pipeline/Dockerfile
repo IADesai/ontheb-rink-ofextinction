@@ -1,6 +1,6 @@
-FROM python
+FROM amazon/aws-lambda-python
 
-WORKDIR /archive
+WORKDIR ${LAMBDA_TASK_ROOT}
 
 COPY requirements.txt .
 
@@ -10,4 +10,4 @@ RUN pip3 install -r requirements.txt
 
 COPY archive.py .
 
-CMD python3 archive.py
+CMD [ "archive.lambda_handler" ]
