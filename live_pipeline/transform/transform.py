@@ -17,17 +17,16 @@ if __name__ == "__main__":
     df['Botanist_Name'] = df['Botanist_Name'].apply(
         lambda x: x.title())
 
-    df['Last_Watered'] = df['Last_Watered'].apply(
-        lambda x: validate_time_for_last_watered(x))
+    df['Last_Watered'] = df['Last_Watered'].map(validate_time_for_last_watered)
 
-    df['Recording_Time'] = df['Recording_Time'].apply(
-        lambda x: validate_time_for_time_recorded(x))
+    df['Recording_Time'] = df['Recording_Time'].map(
+        validate_time_for_time_recorded)
 
-    df['Temperature'] = df['Temperature'].apply(
-        lambda x: check_temperature_within_correct_ranges(x))
+    df['Temperature'] = df['Temperature'].map(
+        check_temperature_within_correct_ranges)
 
-    df['Soil_Moisture'] = df['Soil_Moisture'].apply(
-        lambda x: check_soil_moisture_within_correct_ranges(x))
+    df['Soil_Moisture'] = df['Soil_Moisture'].map(
+        check_soil_moisture_within_correct_ranges)
 
     clean_df = delete_rows_containing_invalid_data(df)
 
