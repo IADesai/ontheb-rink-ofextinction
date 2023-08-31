@@ -1,4 +1,5 @@
 from datetime import datetime as dt
+import pytz
 from os import environ
 import json
 from boto3 import client
@@ -29,7 +30,7 @@ def logs(plant_id: int, missing_plants: dict, code: int) -> None:
                        ] = f"Server error for plant_id {plant_id}, 500"
 
     try:
-        with open("missing_plants.json", 'w') as file:
+        with open("/tmp/missing_plants.json", 'w') as file:
             json.dump(missing_plants, file, indent=4)
     except Exception as e:
         print(f"An error occurred while writing to the file: {e}")
@@ -146,7 +147,8 @@ def create_list_for_data(plant_data: json) -> list:
 def validate_time_for_time_recorded(date: dt) -> dt | str:
     """Checks whether datetime is appropriate"""
     try:
-        return dt.strptime(date, '%Y-%m-%d %H:%M:%S')
+        date = dt.strptime(date, '%Y-%m-%d %H:%M:%S')
+        return date.astimezone(pytz.timezone(("Europe/London")))
     except ValueError:
         return None
 
@@ -154,7 +156,8 @@ def validate_time_for_time_recorded(date: dt) -> dt | str:
 def validate_time_for_last_watered(date: dt) -> dt | str:
     """Check datetime for last watered is valid"""
     try:
-        return dt.strptime(date, '%a, %d %b %Y %H:%M:%S %Z')
+        date = dt.strptime(date, '%a, %d %b %Y %H:%M:%S %Z')
+        return date.astimezone(pytz.timezone(("Europe/London")))
     except ValueError:
         return None
 
