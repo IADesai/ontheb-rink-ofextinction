@@ -44,7 +44,7 @@ def handler(event=None, context=None):
 
     send_alerts_for_abnormal_results(clean_df)
 
-    clean_df.to_csv('clean_data.csv')
+    clean_df.to_csv('/tmp/clean_data.csv')
 
     load_dotenv()
     configuration = environ
