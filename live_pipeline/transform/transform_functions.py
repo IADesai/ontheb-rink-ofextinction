@@ -136,7 +136,7 @@ def send_alert(config, task: str, message: str):
     if not isinstance(message, str):
         raise ValueError("Message should be a string")
     email = client('ses', aws_access_key_id=config["ACCESS_KEY_ID"],
-                   aws_secret_access_key=config["SECRET_ACCESS_KEY"])
+                   aws_secret_access_key=config["SECRET_ACCESS_KEY"], region_name='eu-west-2')
     email.send_email(
         Source=config["EMAIL"],
         Destination={

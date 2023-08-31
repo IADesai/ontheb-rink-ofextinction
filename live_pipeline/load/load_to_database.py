@@ -11,7 +11,7 @@ if __name__ == '__main__':
     configuration = environ
     connection = get_db_connection(configuration)
 
-    df = pd.read_csv("practice.csv")
+    df = pd.read_csv("clean_data.csv")
     for row in df.itertuples():
         cycle = row[9]
         add_cycle_information(connection, cycle)
