@@ -1,5 +1,3 @@
-=======
-
 # Live Pipeline
 
 This folder contains all code and resources required for the ETL of the live pipeline
@@ -23,12 +21,13 @@ This folder contains all code and resources required for the ETL of the live pip
 # FOLDERS
 
 - Extract
-
+  -- contains all code and resources required for extracting the data from an api.
+  -- Run python3 extract.py to run the extract program.
+  -- Run pytest test_extract.py to run unit tests.
 - Load
   -- loads the data into an RDS Postgres Database. You will need credentials for the database listed above
   -- tables design as per `schema.sql` file
   -- contains the following files: - requirements.txt will be necessary for the script to run - load_to_database.py - a script that will update the database with transformed data - database_functions.py - file containing the necessary functions for load_to_database to function - test_database_functions.py - pytest file containing a few tests to demonstrate functionality
-
 - Transform
   -- Transformation of the data retrieved from extract
   -- Dates for last watered and time recorded are validated -- if erroneous these rows are dropped from our data due to uncertainty of their validity
