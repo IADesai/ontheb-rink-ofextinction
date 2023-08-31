@@ -15,9 +15,9 @@
             "America/Los_Angeles"
         ],
         "plant_id": 1,
-        "recording_taken": "2023-08-30 14:56:09",
-        "soil_moisture": 96.36114621062993,
-        "temperature": 12.070482937725064
+        "recording_taken": "2023-08-31 08:48:36",
+        "soil_moisture": 33.02730569192913,
+        "temperature": 12.05146117356289
     },
     "2": {
         "botanist": {
@@ -35,9 +35,9 @@
             "Africa/Lagos"
         ],
         "plant_id": 2,
-        "recording_taken": "2023-08-30 14:56:10",
-        "soil_moisture": 97.52850705914467,
-        "temperature": 9.23359483252033
+        "recording_taken": "2023-08-31 08:48:37",
+        "soil_moisture": 38.977524668789805,
+        "temperature": 9.183073957695093
     },
     "3": {
         "botanist": {
@@ -55,9 +55,9 @@
             "America/Sao_Paulo"
         ],
         "plant_id": 3,
-        "recording_taken": "2023-08-30 14:56:11",
-        "soil_moisture": 99.65892740826129,
-        "temperature": 10.07866135806157
+        "recording_taken": "2023-08-31 08:48:38",
+        "soil_moisture": 37.84556251200769,
+        "temperature": 10.039213729078131
     },
     "4": {
         "botanist": {
@@ -75,9 +75,9 @@
             "America/El_Salvador"
         ],
         "plant_id": 4,
-        "recording_taken": "2023-08-30 14:56:12",
-        "soil_moisture": 94.04791885586481,
-        "temperature": 11.376320865206864
+        "recording_taken": "2023-08-31 08:48:40",
+        "soil_moisture": 30.084216452286284,
+        "temperature": 11.35281877893064
     },
     "5": {
         "botanist": {
@@ -96,7 +96,7 @@
             "small_url": "https://perenual.com/storage/species_image/7190_sarracenia_catesbaei/small/Sarracenia_x_catesbaei_x_psittacina_Kapturnica_2014-06-19_01.jpg",
             "thumbnail": "https://perenual.com/storage/species_image/7190_sarracenia_catesbaei/thumbnail/Sarracenia_x_catesbaei_x_psittacina_Kapturnica_2014-06-19_01.jpg"
         },
-        "last_watered": "Tue, 29 Aug 2023 14:56:18 GMT",
+        "last_watered": "Wed, 30 Aug 2023 14:56:18 GMT",
         "name": "Pitcher plant",
         "origin_location": [
             "22.88783",
@@ -106,15 +106,15 @@
             "Asia/Kolkata"
         ],
         "plant_id": 5,
-        "recording_taken": "2023-08-30 14:56:14",
+        "recording_taken": "2023-08-31 08:48:40",
         "scientific_name": [
             "Sarracenia catesbaei"
         ],
-        "soil_moisture": 18.262940291390734,
+        "soil_moisture": 39.12700103027436,
         "sunlight": [
             "Full sun"
         ],
-        "temperature": 11.258375158484961
+        "temperature": 11.224033451811158
     },
     "6": {
         "botanist": {
@@ -143,15 +143,15 @@
             "America/Toronto"
         ],
         "plant_id": 6,
-        "recording_taken": "2023-08-30 14:56:15",
+        "recording_taken": "2023-08-31 08:48:42",
         "scientific_name": [
             "Wollemia nobilis"
         ],
-        "soil_moisture": 95.51374957275254,
+        "soil_moisture": 35.87841636329935,
         "sunlight": [
             "Part shade"
         ],
-        "temperature": 106.05474605680678
+        "temperature": 10.99204077195861
     },
     "8": {
         "botanist": {
@@ -180,16 +180,16 @@
             "Africa/Abidjan"
         ],
         "plant_id": 8,
-        "recording_taken": "2023-08-30 14:56:17",
+        "recording_taken": "2023-08-31 08:48:44",
         "scientific_name": [
             "Heliconia schiedeana 'Fire and Ice'"
         ],
-        "soil_moisture": 94.43683738966203,
+        "soil_moisture": 30.47342846322067,
         "sunlight": [
             "Full sun",
             "part shade"
         ],
-        "temperature": 11.620159100199178
+        "temperature": 11.57442360262116
     },
     "9": {
         "botanist": {
@@ -218,15 +218,15 @@
             "Europe/Berlin"
         ],
         "plant_id": 9,
-        "recording_taken": "2023-08-30 14:56:19",
+        "recording_taken": "2023-08-31 08:48:45",
         "scientific_name": [
             "Pereskia grandifolia"
         ],
-        "soil_moisture": 97.47234267439613,
+        "soil_moisture": 35.301736706280195,
         "sunlight": [
             "full sun"
         ],
-        "temperature": 10.647967524355927
+        "temperature": 10.62396748826203
     },
     "10": {
         "botanist": {
@@ -244,9 +244,9 @@
             "Europe/Zagreb"
         ],
         "plant_id": 10,
-        "recording_taken": "2023-08-30 14:56:20",
-        "soil_moisture": 93.55489716682739,
-        "temperature": 13.991745491078541
+        "recording_taken": "2023-08-31 08:48:46",
+        "soil_moisture": 31.505163272902607,
+        "temperature": 13.971412148121761
     },
     "11": {
         "botanist": {
@@ -275,15 +275,15 @@
             "Pacific/Honolulu"
         ],
         "plant_id": 11,
-        "recording_taken": "2023-08-30 14:56:22",
+        "recording_taken": "2023-08-31 08:48:47",
         "scientific_name": [
             "Asclepias curassavica"
         ],
-        "soil_moisture": -64.32382910904553,
+        "soil_moisture": 35.31500937640449,
         "sunlight": [
             "full sun"
         ],
-        "temperature": 9.530077180056939
+        "temperature": 9.497803447136912
     },
     "12": {
         "botanist": {
@@ -301,29 +301,9 @@
             "America/Chicago"
         ],
         "plant_id": 12,
-        "recording_taken": "2023-08-30 14:56:25",
-        "soil_moisture": 93.9545147102161,
-        "temperature": 12.911959057422202
-    },
-    "13": {
-        "botanist": {
-            "email": "eliza.andrews@lnhm.co.uk",
-            "name": "Eliza Andrews",
-            "phone": "(846)669-6651x75948"
-        },
-        "last_watered": "Wed, 30 Aug 2023 13:36:47 GMT",
-        "name": "Canna \u2018Striata\u2019",
-        "origin_location": [
-            "49.68369",
-            "8.61839",
-            "Bensheim",
-            "DE",
-            "Europe/Berlin"
-        ],
-        "plant_id": 13,
-        "recording_taken": "2023-08-30 14:56:27",
-        "soil_moisture": 95.61864288175985,
-        "temperature": 9.628722194724636
+        "recording_taken": "2023-08-31 08:48:47",
+        "soil_moisture": 30.749544885068758,
+        "temperature": 12.858930924475631
     },
     "14": {
         "botanist": {
@@ -352,16 +332,16 @@
             "America/New_York"
         ],
         "plant_id": 14,
-        "recording_taken": "2023-08-30 14:56:28",
+        "recording_taken": "2023-08-31 08:48:49",
         "scientific_name": [
             "Colocasia esculenta"
         ],
-        "soil_moisture": 97.82308921354657,
+        "soil_moisture": 37.295108095014115,
         "sunlight": [
             "full sun",
             "part sun/part shade"
         ],
-        "temperature": 13.243932494910208
+        "temperature": 13.192117041526277
     },
     "15": {
         "botanist": {
@@ -379,9 +359,9 @@
             "Africa/Tunis"
         ],
         "plant_id": 15,
-        "recording_taken": "2023-08-30 14:56:29",
-        "soil_moisture": 95.82506197843138,
-        "temperature": 10.03940961021586
+        "recording_taken": "2023-08-31 08:48:50",
+        "soil_moisture": 32.745124215686275,
+        "temperature": 10.010920598190365
     },
     "16": {
         "botanist": {
@@ -410,15 +390,15 @@
             "America/New_York"
         ],
         "plant_id": 16,
-        "recording_taken": "2023-08-30 14:56:31",
+        "recording_taken": "2023-08-31 08:48:51",
         "scientific_name": [
             "Euphorbia cotinifolia"
         ],
-        "soil_moisture": 94.35570976857143,
+        "soil_moisture": 2.4408135157142965,
         "sunlight": [
             "Full sun"
         ],
-        "temperature": 13.346332700210647
+        "temperature": 13.31733687330642
     },
     "17": {
         "botanist": {
@@ -447,15 +427,15 @@
             "Asia/Jakarta"
         ],
         "plant_id": 17,
-        "recording_taken": "2023-08-30 14:56:32",
+        "recording_taken": "2023-08-31 08:48:51",
         "scientific_name": [
             "Ipomoea batatas"
         ],
-        "soil_moisture": 96.86509293889428,
+        "soil_moisture": 34.45978599224054,
         "sunlight": [
             "full sun"
         ],
-        "temperature": 9.859396735207262
+        "temperature": 9.818677023240856
     },
     "18": {
         "botanist": {
@@ -473,9 +453,9 @@
             "Europe/Berlin"
         ],
         "plant_id": 18,
-        "recording_taken": "2023-08-30 14:56:34",
-        "soil_moisture": 98.43142205825242,
-        "temperature": 9.141686202480914
+        "recording_taken": "2023-08-31 08:48:52",
+        "soil_moisture": 35.96786078058251,
+        "temperature": 9.08894668120963
     },
     "19": {
         "botanist": {
@@ -504,15 +484,15 @@
             "Africa/Gaborone"
         ],
         "plant_id": 19,
-        "recording_taken": "2023-08-30 14:56:36",
+        "recording_taken": "2023-08-31 08:48:53",
         "scientific_name": [
             "Musa basjoo"
         ],
-        "soil_moisture": 94.84926462068965,
+        "soil_moisture": 34.88958919291706,
         "sunlight": [
             "Full sun"
         ],
-        "temperature": 13.902321776563701
+        "temperature": 13.88218075494597
     },
     "20": {
         "botanist": {
@@ -541,16 +521,16 @@
             "Europe/Madrid"
         ],
         "plant_id": 20,
-        "recording_taken": "2023-08-30 14:56:38",
+        "recording_taken": "2023-08-31 08:48:54",
         "scientific_name": [
             "Salvia splendens"
         ],
-        "soil_moisture": 99.5851811085044,
+        "soil_moisture": 36.69512971358749,
         "sunlight": [
             "Full sun",
             "part shade"
         ],
-        "temperature": 8.695694801025672
+        "temperature": 8.649674170613096
     },
     "21": {
         "botanist": {
@@ -579,15 +559,15 @@
             "America/Sao_Paulo"
         ],
         "plant_id": 21,
-        "recording_taken": "2023-08-30 14:56:40",
+        "recording_taken": "2023-08-31 08:48:55",
         "scientific_name": [
             "Anthurium andraeanum"
         ],
-        "soil_moisture": 98.13699091452992,
+        "soil_moisture": 37.04013022317189,
         "sunlight": [
             "part sun/part shade"
         ],
-        "temperature": 11.092848457248806
+        "temperature": 11.057150667978885
     },
     "22": {
         "botanist": {
@@ -616,54 +596,16 @@
             "Europe/Berlin"
         ],
         "plant_id": 22,
-        "recording_taken": "2023-08-30 14:56:43",
+        "recording_taken": "2023-08-31 08:48:56",
         "scientific_name": [
             "Heliconia schiedeana 'Fire and Ice'"
         ],
-        "soil_moisture": 93.37499328752436,
+        "soil_moisture": 30.67192631968811,
         "sunlight": [
             "Full sun",
             "part shade"
         ],
-        "temperature": 9.607874570622442
-    },
-    "23": {
-        "botanist": {
-            "email": "eliza.andrews@lnhm.co.uk",
-            "name": "Eliza Andrews",
-            "phone": "(846)669-6651x75948"
-        },
-        "cycle": "Perennial",
-        "images": {
-            "license": 45,
-            "license_name": "Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)",
-            "license_url": "https://creativecommons.org/licenses/by-sa/3.0/deed.en",
-            "medium_url": "https://perenual.com/storage/species_image/2045_cordyline_fruticosa/medium/2560px-Cordyline_fruticosa_Rubra_1.jpg",
-            "original_url": "https://perenual.com/storage/species_image/2045_cordyline_fruticosa/og/2560px-Cordyline_fruticosa_Rubra_1.jpg",
-            "regular_url": "https://perenual.com/storage/species_image/2045_cordyline_fruticosa/regular/2560px-Cordyline_fruticosa_Rubra_1.jpg",
-            "small_url": "https://perenual.com/storage/species_image/2045_cordyline_fruticosa/small/2560px-Cordyline_fruticosa_Rubra_1.jpg",
-            "thumbnail": "https://perenual.com/storage/species_image/2045_cordyline_fruticosa/thumbnail/2560px-Cordyline_fruticosa_Rubra_1.jpg"
-        },
-        "last_watered": "Tue, 29 Aug 2023 14:56:47 GMT",
-        "name": "Cordyline Fruticosa",
-        "origin_location": [
-            "52.53048",
-            "13.29371",
-            "Charlottenburg-Nord",
-            "DE",
-            "Europe/Berlin"
-        ],
-        "plant_id": 23,
-        "recording_taken": "2023-08-30 14:56:44",
-        "scientific_name": [
-            "Cordyline fruticosa"
-        ],
-        "soil_moisture": 17.084689827255275,
-        "sunlight": [
-            "full sun",
-            "part sun/part shade"
-        ],
-        "temperature": 11.504501846028488
+        "temperature": 9.57875238823296
     },
     "24": {
         "botanist": {
@@ -692,16 +634,16 @@
             "Asia/Tokyo"
         ],
         "plant_id": 24,
-        "recording_taken": "2023-08-30 14:56:45",
+        "recording_taken": "2023-08-31 08:48:57",
         "scientific_name": [
             "Ficus carica"
         ],
-        "soil_moisture": 99.23781372238805,
+        "soil_moisture": 35.22648465373135,
         "sunlight": [
             "full sun",
             "part sun/part shade"
         ],
-        "temperature": 13.112666926244012
+        "temperature": 13.086290881517007
     },
     "25": {
         "botanist": {
@@ -719,9 +661,9 @@
             "Africa/Khartoum"
         ],
         "plant_id": 25,
-        "recording_taken": "2023-08-30 14:56:47",
-        "soil_moisture": 96.71350518755891,
-        "temperature": 11.638477119143781
+        "recording_taken": "2023-08-31 08:48:57",
+        "soil_moisture": 36.082309686145145,
+        "temperature": 11.615032138671655
     },
     "26": {
         "botanist": {
@@ -750,16 +692,16 @@
             "Africa/Algiers"
         ],
         "plant_id": 26,
-        "recording_taken": "2023-08-30 14:56:50",
+        "recording_taken": "2023-08-31 08:48:58",
         "scientific_name": [
             "Dieffenbachia seguine"
         ],
-        "soil_moisture": 98.1488368574057,
+        "soil_moisture": 38.9688556025759,
         "sunlight": [
             "filtered shade",
             "part sun/part shade"
         ],
-        "temperature": 14.199140225580157
+        "temperature": 14.176489688725038
     },
     "27": {
         "botanist": {
@@ -778,7 +720,7 @@
             "small_url": "https://perenual.com/storage/species_image/7463_spathiphyllum_group/small/b4cfd76ce36d77ea460b3635517a73aab86fef0c.jpg",
             "thumbnail": "https://perenual.com/storage/species_image/7463_spathiphyllum_group/thumbnail/b4cfd76ce36d77ea460b3635517a73aab86fef0c.jpg"
         },
-        "last_watered": "Tue, 29 Aug 2023 14:58:20 GMT",
+        "last_watered": "Wed, 30 Aug 2023 14:58:20 GMT",
         "name": "Spathiphyllum",
         "origin_location": [
             "51.67822",
@@ -788,16 +730,16 @@
             "Europe/Kiev"
         ],
         "plant_id": 27,
-        "recording_taken": "2023-08-30 14:56:52",
+        "recording_taken": "2023-08-31 08:48:59",
         "scientific_name": [
             "Spathiphyllum (group)"
         ],
-        "soil_moisture": 17.719596406101047,
+        "soil_moisture": 38.761158492850335,
         "sunlight": [
             "part shade",
             "full shade"
         ],
-        "temperature": 10.811567452896274
+        "temperature": 10.785313739329478
     },
     "28": {
         "botanist": {
@@ -826,16 +768,16 @@
             "America/New_York"
         ],
         "plant_id": 28,
-        "recording_taken": "2023-08-30 14:56:54",
+        "recording_taken": "2023-08-31 08:49:01",
         "scientific_name": [
             "Codiaeum variegatum"
         ],
-        "soil_moisture": 98.80873091408591,
+        "soil_moisture": 34.54617545154845,
         "sunlight": [
             "part shade",
             "full sun"
         ],
-        "temperature": 12.450500977093158
+        "temperature": 12.430907118290355
     },
     "29": {
         "botanist": {
@@ -864,15 +806,15 @@
             "Asia/Tokyo"
         ],
         "plant_id": 29,
-        "recording_taken": "2023-08-30 14:56:55",
+        "recording_taken": "2023-08-31 08:49:02",
         "scientific_name": [
             "Aloe vera"
         ],
-        "soil_moisture": 94.07688845556595,
+        "soil_moisture": 33.90257944714686,
         "sunlight": [
             "full sun"
         ],
-        "temperature": 10.933216639650787
+        "temperature": 10.886440789451308
     },
     "30": {
         "botanist": {
@@ -901,16 +843,16 @@
             "Africa/Tripoli"
         ],
         "plant_id": 30,
-        "recording_taken": "2023-08-30 14:56:58",
+        "recording_taken": "2023-08-31 08:49:03",
         "scientific_name": [
             "Ficus elastica"
         ],
-        "soil_moisture": 96.59381162246777,
+        "soil_moisture": 37.362322532228355,
         "sunlight": [
             "full sun",
             "part sun/part shade"
         ],
-        "temperature": 14.564799416965066
+        "temperature": 14.53801209535477
     },
     "31": {
         "botanist": {
@@ -939,16 +881,16 @@
             "Asia/Shanghai"
         ],
         "plant_id": 31,
-        "recording_taken": "2023-08-30 14:56:59",
+        "recording_taken": "2023-08-31 08:49:05",
         "scientific_name": [
             "Sansevieria trifasciata"
         ],
-        "soil_moisture": 93.58002917788461,
+        "soil_moisture": 31.72878582115385,
         "sunlight": [
             "full sun",
             "part sun/part shade"
         ],
-        "temperature": 13.42072136704471
+        "temperature": 13.391412534932531
     },
     "32": {
         "botanist": {
@@ -977,16 +919,16 @@
             "Europe/Berlin"
         ],
         "plant_id": 32,
-        "recording_taken": "2023-08-30 14:57:00",
+        "recording_taken": "2023-08-31 08:49:05",
         "scientific_name": [
             "Philodendron hederaceum"
         ],
-        "soil_moisture": 98.3828409194831,
+        "soil_moisture": 34.44136874850895,
         "sunlight": [
             "filtered shade",
             "full shade"
         ],
-        "temperature": 10.652276718971507
+        "temperature": 10.630444070206824
     },
     "33": {
         "botanist": {
@@ -1015,15 +957,15 @@
             "Asia/Kolkata"
         ],
         "plant_id": 33,
-        "recording_taken": "2023-08-30 14:57:02",
+        "recording_taken": "2023-08-31 08:49:06",
         "scientific_name": [
             "Schefflera arboricola"
         ],
-        "soil_moisture": 97.02435922524272,
+        "soil_moisture": 34.57454134757282,
         "sunlight": [
             "part sun/part shade"
         ],
-        "temperature": 10.58800711625609
+        "temperature": 13.59013928432446
     },
     "34": {
         "botanist": {
@@ -1043,16 +985,16 @@
             "Europe/Madrid"
         ],
         "plant_id": 34,
-        "recording_taken": "2023-08-30 14:57:04",
+        "recording_taken": "2023-08-31 08:49:07",
         "scientific_name": [
             "Aglaonema commutatum"
         ],
-        "soil_moisture": 95.74117658674464,
+        "soil_moisture": 33.04826283430799,
         "sunlight": [
             "part shade",
             "full shade"
         ],
-        "temperature": 13.47894704254882
+        "temperature": 13.445496703630852
     },
     "35": {
         "botanist": {
@@ -1081,16 +1023,16 @@
             "America/Santiago"
         ],
         "plant_id": 35,
-        "recording_taken": "2023-08-30 14:57:05",
+        "recording_taken": "2023-08-31 08:49:08",
         "scientific_name": [
             "Monstera deliciosa"
         ],
-        "soil_moisture": 95.00534103356367,
+        "soil_moisture": 31.507859400789727,
         "sunlight": [
             "Full sun only if soil kept moist",
             " Part sun/part shade"
         ],
-        "temperature": 13.03150104240974
+        "temperature": 12.980545811578477
     },
     "36": {
         "botanist": {
@@ -1119,16 +1061,16 @@
             "America/New_York"
         ],
         "plant_id": 36,
-        "recording_taken": "2023-08-30 14:57:08",
+        "recording_taken": "2023-08-31 08:49:10",
         "scientific_name": [
             "Tacca integrifolia"
         ],
-        "soil_moisture": 97.33737661466165,
+        "soil_moisture": 36.88428583552631,
         "sunlight": [
             "part shade",
             "full shade"
         ],
-        "temperature": 12.401365674442044
+        "temperature": 12.355167475300433
     },
     "37": {
         "botanist": {
@@ -1146,9 +1088,9 @@
             "Asia/Kolkata"
         ],
         "plant_id": 37,
-        "recording_taken": "2023-08-30 14:57:09",
-        "soil_moisture": 98.08945807142857,
-        "temperature": 11.138785641846443
+        "recording_taken": "2023-08-31 08:49:11",
+        "soil_moisture": 36.82980973619048,
+        "temperature": 11.11337407938716
     },
     "38": {
         "botanist": {
@@ -1177,16 +1119,16 @@
             "Africa/Dar_es_Salaam"
         ],
         "plant_id": 38,
-        "recording_taken": "2023-08-30 14:57:10",
+        "recording_taken": "2023-08-31 08:49:11",
         "scientific_name": [
             "Saintpaulia ionantha"
         ],
-        "soil_moisture": 96.03268899534883,
+        "soil_moisture": 36.19915501209302,
         "sunlight": [
             "part shade",
             "part sun/part shade"
         ],
-        "temperature": 11.12624290653065
+        "temperature": 11.098896084122915
     },
     "39": {
         "botanist": {
@@ -1215,15 +1157,15 @@
             "Asia/Tokyo"
         ],
         "plant_id": 39,
-        "recording_taken": "2023-08-30 14:57:12",
+        "recording_taken": "2023-08-31 08:49:12",
         "scientific_name": [
             "Gaillardia aestivalis"
         ],
-        "soil_moisture": 97.68237563482587,
+        "soil_moisture": 33.681804853731336,
         "sunlight": [
             "Full sun"
         ],
-        "temperature": 13.468605304014805
+        "temperature": 13.434844641332825
     },
     "40": {
         "botanist": {
@@ -1252,16 +1194,16 @@
             "Europe/Paris"
         ],
         "plant_id": 40,
-        "recording_taken": "2023-08-30 14:57:14",
+        "recording_taken": "2023-08-31 08:49:13",
         "scientific_name": [
             "Hippeastrum (group)"
         ],
-        "soil_moisture": 97.13841272273568,
+        "soil_moisture": 37.693584917744914,
         "sunlight": [
             "full sun",
             "part sun/part shade"
         ],
-        "temperature": 9.181554398952052
+        "temperature": 9.135161739561337
     },
     "41": {
         "botanist": {
@@ -1290,16 +1232,16 @@
             "Asia/Kolkata"
         ],
         "plant_id": 41,
-        "recording_taken": "2023-08-30 14:57:15",
+        "recording_taken": "2023-08-31 08:49:14",
         "scientific_name": [
             "Caladium bicolor"
         ],
-        "soil_moisture": 95.9678791147388,
+        "soil_moisture": 35.96845797761195,
         "sunlight": [
             "part shade",
             "part sun/part shade"
         ],
-        "temperature": 11.859937051358763
+        "temperature": 11.809089101457573
     },
     "42": {
         "botanist": {
@@ -1328,16 +1270,16 @@
             "Europe/Sofia"
         ],
         "plant_id": 42,
-        "recording_taken": "2023-08-30 14:57:17",
+        "recording_taken": "2023-08-31 08:49:15",
         "scientific_name": [
             "Chlorophytum comosum 'Vittatum'"
         ],
-        "soil_moisture": 99.56147286486487,
+        "soil_moisture": 37.478113003861004,
         "sunlight": [
             "part shade",
             "full shade"
         ],
-        "temperature": 9.917765580643024
+        "temperature": 9.890663559768381
     },
     "44": {
         "botanist": {
@@ -1366,15 +1308,15 @@
             "America/Mexico_City"
         ],
         "plant_id": 44,
-        "recording_taken": "2023-08-30 14:57:19",
+        "recording_taken": "2023-08-31 08:49:16",
         "scientific_name": [
             "Araucaria heterophylla"
         ],
-        "soil_moisture": 95.1575961801716,
+        "soil_moisture": 33.845205504289794,
         "sunlight": [
             "Part shade"
         ],
-        "temperature": 9.649461439116706
+        "temperature": 9.610505008017826
     },
     "45": {
         "botanist": {
@@ -1394,16 +1336,16 @@
             "America/Los_Angeles"
         ],
         "plant_id": 45,
-        "recording_taken": "2023-08-30 14:57:20",
+        "recording_taken": "2023-08-31 08:49:17",
         "scientific_name": [
             "Begonia 'Art Hodes'"
         ],
-        "soil_moisture": 96.92656300483559,
+        "soil_moisture": 34.724654762088974,
         "sunlight": [
             "full sun",
             "part shade"
         ],
-        "temperature": 9.106247849319395
+        "temperature": 9.057044930052761
     },
     "46": {
         "botanist": {
@@ -1432,15 +1374,15 @@
             "Africa/Blantyre"
         ],
         "plant_id": 46,
-        "recording_taken": "2023-08-30 14:57:23",
+        "recording_taken": "2023-08-31 08:49:18",
         "scientific_name": [
             "Medinilla magnifica"
         ],
-        "soil_moisture": 97.52843498526704,
+        "soil_moisture": 38.30605138121546,
         "sunlight": [
             "part sun/part shade"
         ],
-        "temperature": 13.402826616519734
+        "temperature": 13.361968821730102
     },
     "47": {
         "botanist": {
@@ -1469,15 +1411,53 @@
             "Europe/Rome"
         ],
         "plant_id": 47,
-        "recording_taken": "2023-08-30 14:57:24",
+        "recording_taken": "2023-08-31 08:49:19",
         "scientific_name": [
             "Calliandra haematocephala"
         ],
-        "soil_moisture": 92.53361252285714,
+        "soil_moisture": 0.6548579871428473,
         "sunlight": [
             "Full sun"
         ],
-        "temperature": 13.388175457470913
+        "temperature": 13.366076603137335
+    },
+    "48": {
+        "botanist": {
+            "email": "carl.linnaeus@lnhm.co.uk",
+            "name": "Carl Linnaeus",
+            "phone": "(146)994-1635x35992"
+        },
+        "cycle": "Herbaceous Perennial",
+        "images": {
+            "license": 4,
+            "license_name": "Attribution License",
+            "license_url": "https://creativecommons.org/licenses/by/2.0/",
+            "medium_url": "https://perenual.com/storage/species_image/8386_zamioculcas_zamiifolia/medium/24891577155_64934d420e_b.jpg",
+            "original_url": "https://perenual.com/storage/species_image/8386_zamioculcas_zamiifolia/og/24891577155_64934d420e_b.jpg",
+            "regular_url": "https://perenual.com/storage/species_image/8386_zamioculcas_zamiifolia/regular/24891577155_64934d420e_b.jpg",
+            "small_url": "https://perenual.com/storage/species_image/8386_zamioculcas_zamiifolia/small/24891577155_64934d420e_b.jpg",
+            "thumbnail": "https://perenual.com/storage/species_image/8386_zamioculcas_zamiifolia/thumbnail/24891577155_64934d420e_b.jpg"
+        },
+        "last_watered": "Wed, 30 Aug 2023 14:31:09 GMT",
+        "name": "Zamioculcas Zamiifolia",
+        "origin_location": [
+            "14.14989",
+            "121.3152",
+            "Calauan",
+            "PH",
+            "Asia/Manila"
+        ],
+        "plant_id": 48,
+        "recording_taken": "2023-08-31 08:49:20",
+        "scientific_name": [
+            "Zamioculcas zamiifolia"
+        ],
+        "soil_moisture": 35.65291725097656,
+        "sunlight": [
+            "part shade",
+            "part sun/part shade"
+        ],
+        "temperature": 14.914829043334045
     },
     "49": {
         "botanist": {
@@ -1506,15 +1486,15 @@
             "America/Mexico_City"
         ],
         "plant_id": 49,
-        "recording_taken": "2023-08-30 14:57:26",
+        "recording_taken": "2023-08-31 08:49:21",
         "scientific_name": [
             "Crassula ovata"
         ],
-        "soil_moisture": 96.78153290767736,
+        "soil_moisture": 34.279621064139945,
         "sunlight": [
             "full sun"
         ],
-        "temperature": 9.490316474434875
+        "temperature": 9.441596466334296
     },
     "50": {
         "botanist": {
@@ -1543,14 +1523,14 @@
             "America/Sao_Paulo"
         ],
         "plant_id": 50,
-        "recording_taken": "2023-08-30 14:57:28",
+        "recording_taken": "2023-08-31 08:49:22",
         "scientific_name": [
             "Epipremnum aureum"
         ],
-        "soil_moisture": 96.83983861471442,
+        "soil_moisture": 34.58035866795741,
         "sunlight": [
             "part sun/part shade"
         ],
-        "temperature": 13.250599810624571
+        "temperature": 13.210378978766645
     }
 }
