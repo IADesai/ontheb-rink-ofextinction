@@ -55,6 +55,8 @@ To run the test file: `pytest test_extract.py`
 ### Transform
 
 Contains the scripts required to transform the raw data from extract into clean data for load.
+To run the file individually: `python3 transform.py`
+To run the test file: `pytest test_transform.py`
 
 #### Assumptions and design decisions
 
@@ -62,10 +64,7 @@ Dates for 'Last Watered' and 'Time Recorded' are validated to ensure they are a 
 
 Temperature ranges have been set to be between 9 - 40 degrees, which has been determined from UK weather data, as this is where we expect plants to sustain life. Variation of 5 degree either side has been considered to be valid an alert is sent if this is the case. Any temperature above or below the 5 degrees leniency is unlikely to be a fluctuation of normal and is discarded as invalid. Ideally we would have a different database containing each specific plants optimal conditions for accurate results.
 
-Soil moisture
--- Soil moisture is expected to be greater than 21 -- which is a value we have researched to be the lower end of normal. We would expect the soil moisture in a botanical garden to be greater than this, otherwise it has not been watered and an alert will be sent for this too.
-
--- Testing files are made up of: conftest.py and test_transform.py which tests the functions outlined in transform_functions.py
+Soil moisture lower range is set at 21%. We have researched this value to be the lower end of normal. In a botanical garden we would expect the moisture quality to be better regulated and hence greater than this, otherwise it has not been watered in which case lower than 21 will send an alert. We have invalidated data which is less than 5% of a fluctuation as it is unlikely to have not been maintained that poorly.
 
 ### Load
 
