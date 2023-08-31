@@ -16,7 +16,7 @@ from psycopg2.extensions import connection
 from dotenv import load_dotenv
 
 CSV_COLUMNS = [
-    "entry_id", "species", "temperature", "soil_moisture", "humidity",
+    "entry_id", "species", "temperature", "soil_moisture",
     "last_watered", "recording_taken", "sunlight", "botanist_name", "cycle"
 ]
 
@@ -42,10 +42,9 @@ def get_live_database(conn: connection) -> pd.DataFrame:
 
     query = """
     SELECT p.plant_entry_id AS entry_id,
-           s.scientific_name AS species,
+           s.s_name AS species,
            p.temperature,
            p.soil_moisture,
-           p.humidity,
            p.last_watered AS last_watered,
            p.recording_taken AS recording_taken,
            sun.s_description AS sunlight,
@@ -68,23 +67,17 @@ def get_live_database(conn: connection) -> pd.DataFrame:
 
     return data_df
 
-
-def get_archived_data() -> pd.DataFrame:
-    """Function that gets the required data from the s3 bucket and
-    puts all data into pandas DataFrame form"""
-
-    csv_files = [f for f in os.listdir("archived_data") if f.endswith('.csv')]
-    dfs = []
-
-    for csv in csv_files:
-        csv_to_df = pd.read_csv("archived_data/" + csv,
-                                names=CSV_COLUMNS, header=1)
-        dfs.append(csv_to_df)
-
-    archived_plants_data = pd.concat(dfs, ignore_index=True)
-
-    return archived_plants_data
-
+def get_selected_archive():
+    with st.sidebar:
+            st.sidebar.title("Dropdown")
+            
+            # Get a list of CSV files in the 'archived_data' folder
+            csv_files = [f for f in os.listdir("archived_data") if f.endswith('.csv')]
+            
+            # Create a dropdown to select a CSV file by date
+            selected_csv = st.selectbox("Select an archived file by date", csv_files)
+            data = pd.read_csv(os.path.join("archived_data", selected_csv))
+    return data
 
 def switch_data(db_connection: connection) -> pd.DataFrame:
     """
@@ -96,8 +89,8 @@ def switch_data(db_connection: connection) -> pd.DataFrame:
     toggle_on = st.sidebar.toggle(
         label="Toggle for Archived Data", value=False, )
     if toggle_on:
-        data = get_archived_data()
-
+        data = get_selected_archive()
+    
     return data
 
 
@@ -120,6 +113,7 @@ def plot_temp_for_plants(data_df) -> None:
     sns.barplot(x="species", y="temperature", data=data_df)
     plt.xlabel("Species")
     plt.ylabel("Temperature")
+    plt.xticks(rotation=45)
     plt.title("Temperature Values for Different Plants")
     st.pyplot(plt)
 
@@ -136,30 +130,29 @@ def plot_soil_moisture_for_plants(data_df):
     sns.barplot(x="species", y="soil_moisture", data=data_df)
     plt.xlabel("Species")
     plt.ylabel("Soil Moisture")
+    plt.xticks(rotation=45)
     plt.title("Soil Moisture Readings for Different Plants")
     st.pyplot(plt)
 
-
 def handle_sidebar_options(plant_data_df):
-    """ 
-    displays inital 10 rows of the data
-    with options for next 10 and previous 10
-    """
-    start_index = 0
+    """Displays initial 10 rows of the data with options for next 10 and previous 10."""
+    if "start_index" not in st.session_state:
+        st.session_state.start_index = 0
+    
     rows_to_show = 10
 
     with st.sidebar:
-        st.sidebar.title("Options")
+        st.sidebar.title("Pagination")
         if st.button("Show Previous 10 Rows"):
-            start_index = max(0, start_index - rows_to_show)
+            st.session_state.start_index = max(0, st.session_state.start_index - rows_to_show)
 
         if st.button("Show Next 10 Rows"):
-            start_index = min(start_index + rows_to_show,
-                              len(plant_data_df) - rows_to_show)
+            st.session_state.start_index = min(st.session_state.start_index + rows_to_show,
+                                               len(plant_data_df) - rows_to_show)
 
-    initial_data_to_show = plant_data_df[start_index:start_index+rows_to_show]
-    plot_temp_for_plants(initial_data_to_show)
-    plot_soil_moisture_for_plants(initial_data_to_show)
+    data_to_show = plant_data_df[st.session_state.start_index:st.session_state.start_index + rows_to_show]
+    plot_temp_for_plants(data_to_show)
+    plot_soil_moisture_for_plants(data_to_show)
 
 
 if __name__ == "__main__":
