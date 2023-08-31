@@ -1,79 +1,43 @@
 """
-
 Streamlit dashboard application code
 
 Module contains code for connecting to postgres database (RDS)
 and using that data to create charts for data analysis.
 """
+import sys
 import os
 from os import environ
-import streamlit as st
 import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
-from psycopg2 import connect
+from psycopg2 import connect, Error
 from psycopg2.extensions import connection
 from dotenv import load_dotenv
 
-
-def get_live_data(db_conn: connection) -> pd.DataFrame:
-    """Function that gets the required data from the database connection 
-    and puts all data into pandas DataFrame form"""
-    cursor = db_conn.cursor()
-    cursor.execute("SELECT * FROM plant")
-    names = [x[0] for x in cursor.description]
-    live_plants_data = pd.DataFrame(cursor.fetchall(), columns=names)
-    return live_plants_data
+CSV_COLUMNS = [
+    "entry_id", "species", "temperature", "soil_moisture", "humidity",
+    "last_watered", "recording_taken", "sunlight", "botanist_name", "cycle"
+]
 
 
-def get_archived_data() -> pd.DataFrame:
-    """Function that gets the required data from the s3 bucket and
-    puts all data into pandas DataFrame form"""
-
-    # Download all CSV files from the archive s3 bucket
-
-    csv_files = [f for f in os.listdir("archived_data") if f.endswith('.csv')]
-    dfs = []
-
-    for csv in csv_files:
-        csv_to_df = pd.read_csv("archived_data/"+csv)
-        dfs.append(csv_to_df)
-
-    archived_plants_data = pd.concat(dfs, ignore_index=True)
-
-    # Delete all CSV files from the archived_data folder locally
-
-    return archived_plants_data
+def get_db_connection():
+    """Establishes a connection with the PostgreSQL database."""
+    try:
+        conn = connect(
+            user=environ.get("DATABASE_USERNAME"),
+            password=environ.get("DATABASE_PASSWORD"),
+            host=environ.get("DATABASE_IP"),
+            port=environ.get("DATABASE_PORT"),
+            database=environ.get("DATABASE_NAME"),)
+        print("Database connection established successfully.")
+        return conn
+    except Error as err:
+        print("Error connecting to database: ", err)
+        sys.exit()
 
 
-def sidebar(db_connection: connection) -> None:
-    """Function that sets up the sidebar for the dashboard"""
-    #st.sidebar.title("ONTHEB-RINK-OFEXTINCTION")
-    #st.sidebar.markdown("An app for Liverpool Natural History Museum,\
-                        #monitoring the health of our plants")
-
-    # data = get_live_data(db_connection)
-
-    #print(data)
-
-    toggle_on = st.sidebar.toggle(label="Toggle for Archived Data", value=False, )
-    if toggle_on:
-        data = get_archived_data()
-
-    # with st.sidebar.expander("Expand to see information about the plants"):
-    #     st.markdown("Lorem Ipsum")
-    return data
-
-def dashboard_header()-> None:
-    """Create a header for the dashboard."""
-    st.title("ONTHEB-RINK-OFEXTINCTION")
-    st.markdown("An app for Liverpool Natural History Museum,\
-                        #monitoring the health of our plants")
-
-
-
-def get_data_from_database(conn: connection):
+def get_live_database(conn: connection) -> pd.DataFrame:
     """Retrieve plant data from the database and return as a DataFrame."""
 
     query = """
@@ -93,67 +57,114 @@ def get_data_from_database(conn: connection):
     LEFT JOIN botanist b ON p.botanist_id = b.botanist_id
     LEFT JOIN cycle c ON p.cycle_id = c.cycle_id;
     """
-    
+
     with conn.cursor() as cur:
         cur.execute(query)
         data = cur.fetchall()
 
-    columns = ["entry_id", "species", "temperature", "soil_moisture", "humidity", "last_watered", "recording_taken", "sunlight", "botanist_name", "cycle"]
-    data_df = pd.DataFrame(data, columns=columns)
+    data_df = pd.DataFrame(data, columns=CSV_COLUMNS)
     data_df["last_watered"] = pd.to_datetime(data_df["last_watered"])
     data_df["recording_taken"] = pd.to_datetime(data_df["recording_taken"])
-    
+
     return data_df
 
-def plot_temp_for_10_plants(data_df)-> None:
-    # Create a bar chart using Seaborn
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x="species", y="temperature", data=data_df)
-    plt.xticks(rotation=45)
-    plt.xlabel("Species")
-    plt.ylabel("Temperature")
-    plt.title("Temperature Values for Different Plants")
-    st.pyplot()
-    
-if __name__ == "__main__":
 
-    load_dotenv()
-    config = environ
+def get_archived_data() -> pd.DataFrame:
+    """Function that gets the required data from the s3 bucket and
+    puts all data into pandas DataFrame form"""
 
-    conn = connect(
-            user=config["DATABASE_USERNAME"],
-            password=config["DATABASE_PASSWORD"],
-            host=config["DATABASE_IP"],
-            port=config["DATABASE_PORT"],
-            database=config["DATABASE_NAME"],
-        )
-    
-    st.set_option('deprecation.showPyplotGlobalUse', False)
+    csv_files = [f for f in os.listdir("archived_data") if f.endswith('.csv')]
+    dfs = []
+
+    for csv in csv_files:
+        csv_to_df = pd.read_csv("archived_data/" + csv,
+                                names=CSV_COLUMNS, header=1)
+        dfs.append(csv_to_df)
+
+    archived_plants_data = pd.concat(dfs, ignore_index=True)
+
+    return archived_plants_data
 
 
-    plant_data_df = get_data_from_database(conn)
-    dashboard_header()
-    # Initialize the starting index and number of rows to show
-    start_index = 0
-    rows_to_show = 10
+def switch_data(db_connection: connection) -> pd.DataFrame:
+    """
+    Returns either the live data or the archived data 
+    based on if toggle is on. (The default is live data)
+    """
+    data = get_live_database(db_connection)
 
+    toggle_on = st.sidebar.toggle(
+        label="Toggle for Archived Data", value=False, )
+    if toggle_on:
+        data = get_archived_data()
+
+    return data
+
+
+def dashboard_header() -> None:
+    """Creates a header for the dashboard."""
+    st.title("ONTHEB-RINK-OFEXTINCTION")
+    st.markdown("An app for Liverpool Natural History Museum,\
+                        #monitoring the health of our plants")
+
+
+def plot_temp_for_plants(data_df) -> None:
+    """
+    creates a bar chart with temperature in y axis
+    and the plant name in x axis
+    """
     st.title("Plant Temperature Bar Chart")
     st.write("Bar chart showing temperature values for different plants.")
 
-    # Sidebar options
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x="species", y="temperature", data=data_df)
+    plt.xlabel("Species")
+    plt.ylabel("Temperature")
+    plt.title("Temperature Values for Different Plants")
+    st.pyplot(plt)
+
+
+def plot_soil_moisture_for_plants(data_df):
+    """
+    creates a bar chart with moisture in y axis
+    and the plant name in x axis
+    """
+    st.title("Plant Moisture Bar Chart")
+    st.write("Bar chart showing Moisture values for different plants.")
+
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x="species", y="soil_moisture", data=data_df)
+    plt.xlabel("Species")
+    plt.ylabel("Soil Moisture")
+    plt.title("Soil Moisture Readings for Different Plants")
+    st.pyplot(plt)
+
+
+def handle_sidebar_options(plant_data_df):
+    """ 
+    displays inital 10 rows of the data
+    with options for next 10 and previous 10
+    """
+    start_index = 0
+    rows_to_show = 10
+
     with st.sidebar:
         st.sidebar.title("Options")
         if st.button("Show Previous 10 Rows"):
             start_index = max(0, start_index - rows_to_show)
-            data_to_show = plant_data_df[start_index:start_index+rows_to_show]
-        if st.button("Show Next 10 Rows"):
-            start_index += rows_to_show
-            data_to_show = plant_data_df[start_index:start_index+rows_to_show]
 
-    # Show the initial bar chart
+        if st.button("Show Next 10 Rows"):
+            start_index = min(start_index + rows_to_show,
+                              len(plant_data_df) - rows_to_show)
+
     initial_data_to_show = plant_data_df[start_index:start_index+rows_to_show]
-    plot_temp_for_10_plants(initial_data_to_show)
-    #plant_data = sidebar(conn)
-    
-    # st.markdown(plant_data.style.hide(axis="index").to_html(), unsafe_allow_html=True)
-    
+    plot_temp_for_plants(initial_data_to_show)
+    plot_soil_moisture_for_plants(initial_data_to_show)
+
+
+if __name__ == "__main__":
+    load_dotenv()
+    connection = get_db_connection()
+    plant_data = switch_data(connection)
+    dashboard_header()
+    handle_sidebar_options(plant_data)
