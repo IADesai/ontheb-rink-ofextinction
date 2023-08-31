@@ -60,7 +60,7 @@ def add_species_information(conn, species_info: dict):
             cur.close()
         elif result['exists'] is False:
             cur.execute(
-                """INSERT INTO species(scientific_name) VALUES (%s);""", [species_info['name']])
+                """INSERT INTO species(scientific_name) VALUES (%s);""", [species_info['scientific_name']])
         conn.commit()
         cur.close()
 
@@ -80,12 +80,15 @@ def add_plant_information(conn, plant_record: dict):
             """SELECT cycle_id FROM cycle WHERE cycle_id = %s;""",
             [plant_record['cycle']])
         cycle_id = cur.fetchone()['cycle_id']
-
         cur.execute(
-            """INSERT INTO plant(temperature, soil_moisture, humidity, 
+            """SELECT species_id FROM species WHERE scientific_name = %s;""",
+            [plant_record['scientific_name']])
+        species_id = cur.fetchone()['species_id']
+        cur.execute(
+            """INSERT INTO plant(species_id, temperature, soil_moisture, humidity, 
             last_watered, recording_taken, sunlight_id, botanist_id, cycle_id)
-              VALUES (%s, %s, %s, %s, %s, %s, %s, %s);""",
-            plant_record['temp'], plant_record['soil_moisture'],
+              VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);""",
+            species_id, plant_record['temp'], plant_record['soil_moisture'],
             plant_record['humidity'], plant_record['last_watered'],
             plant_record['recording_taken'], sunlight_id, botanist_id, cycle_id)
         conn.commit()
