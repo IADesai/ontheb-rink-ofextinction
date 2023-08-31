@@ -1,37 +1,78 @@
 # Live Pipeline
 
-This folder contains all code and resources required for the ETL of the live pipeline
+This folder contains all code and resources required for the ETL of the plant data collected from the API. The clean data is uploaded to Postgres RDS on AWS.
 
-## Set-up and installation instructions
+## Configure environment
 
-1. Create venv `python3 -m venv venv`
-2. Activate venv `source .\venv\bin\activate`
-3. Install Requirements `pip install -r requirements.txt`
-4. Requires environment variables:
+```sh
+python3 -m venv venv
+source ./venv/bin/activate
+pip3 install -r requirements.txt
+```
 
-- ACCESS_KEY_ID
-- SECRET_ACCESS_KEY
-- EMAIL
-- DATABASE NAME
-- DATABASE USERNAME
-- DATABASE PASSWORD
-- DATABASE_IP
-- DATABASE_PORT
+## Configure environment variables
 
-# FOLDERS
+The following environment variables must be supplied in a `.env` file.
 
-- Extract
-  -- contains all code and resources required for extracting the data from an api.
-  -- Run python3 extract.py to run the extract program.
-  -- Run pytest test_extract.py to run unit tests.
-- Load
-  -- loads the data into an RDS Postgres Database. You will need credentials for the database listed above
-  -- tables design as per `schema.sql` file
-  -- contains the following files: - requirements.txt will be necessary for the script to run - load_to_database.py - a script that will update the database with transformed data - database_functions.py - file containing the necessary functions for load_to_database to function - test_database_functions.py - pytest file containing a few tests to demonstrate functionality
-- Transform
-  -- Transformation of the data retrieved from extract
-  -- Dates for last watered and time recorded are validated -- if erroneous these rows are dropped from our data due to uncertainty of their validity
-  -- Temperature ranges are determined by the highest and lowest temperature in the UK which we expect plants to sustain life. We allow for a variation of 5 degrees either side for the measurement to be considered valid and an alert is sent if this is the case. Any temperatures above or below 5 degrees is unlikely to be a normal fluctuation and is discarded as invalid
-  -- Soil moisture is expected to be greater than 21 -- which is a value we have researched to be the lower end of normal. We would expect the soil moisture in a botanical garden to be greater than this, otherwise it has not been watered and an alert will be sent for this too.
+`ACCESS_KEY_ID`
+`SECRET_ACCESS_KEY`
+`EMAIL`
+`DATABASE NAME`
+`DATABASE USERNAME`
+`DATABASE PASSWORD`
+`DATABASE_IP`
+`DATABASE_PORT`
+
+## Run the code
+
+```sh
+bash ETL.sh
+```
+
+## Docker image
+
+Build the docker image
+
+```sh
+docker build -t etl_pipeline . --platform "linux/amd64"
+```
+
+Run the docker image locally
+
+```sh
+docker run --env-file .env etl_pipeline
+```
+
+## Folders
+
+### Extract
+
+Contains all code and resources required for extracting the plant data from an api.
+The extracted data is dumped into the plants.json file expect if the data is missing, a log is made of the missing plants.
+To run the file individually : `python3 extract.py`
+To run the test file: `pytest test_extract.py`
+
+### Transform
+
+Contains the scripts required to transform the raw data from extract into clean data for load.
+
+#### Assumptions and design decisions
+
+Dates for 'Last Watered' and 'Time Recorded' are validated to ensure they are a real data, if erroneous or absent the data is stored as None and are then dropped from the dataframe as we cannot be sure of the validity of this data.
+
+Temperature ranges have been set to be between 9 - 40 degrees, which has been determined from UK weather data, as this is where we expect plants to sustain life. Variation of 5 degree either side has been considered to be valid an alert is sent if this is the case. Any temperature above or below the 5 degrees leniency is unlikely to be a fluctuation of normal and is discarded as invalid. Ideally we would have a different database containing each specific plants optimal conditions for accurate results.
+
+Soil moisture
+-- Soil moisture is expected to be greater than 21 -- which is a value we have researched to be the lower end of normal. We would expect the soil moisture in a botanical garden to be greater than this, otherwise it has not been watered and an alert will be sent for this too.
 
 -- Testing files are made up of: conftest.py and test_transform.py which tests the functions outlined in transform_functions.py
+
+### Load
+
+-- loads the data into an RDS Postgres Database. You will need credentials for the database listed above
+-- tables design as per `schema.sql` file
+-- contains the following files: - requirements.txt will be necessary for the script to run - load_to_database.py - a script that will update the database with transformed data - database_functions.py - file containing the necessary functions for load_to_database to function - test_database_functions.py - pytest file containing a few tests to demonstrate functionality
+
+```
+
+```
