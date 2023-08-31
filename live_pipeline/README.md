@@ -68,10 +68,8 @@ Soil moisture lower range is set at 21%. We have researched this value to be the
 
 ### Load
 
--- loads the data into an RDS Postgres Database. You will need credentials for the database listed above
--- tables design as per `schema.sql` file
--- contains the following files: - requirements.txt will be necessary for the script to run - load_to_database.py - a script that will update the database with transformed data - database_functions.py - file containing the necessary functions for load_to_database to function - test_database_functions.py - pytest file containing a few tests to demonstrate functionality
+Contains the script to load the clean data into an RDS Postgres Database.
 
-```
-
-```
+Table design on the RDS is created as per `schema.sql`
+To run the file individually: `python3 load_to_database.py`
+To run the test file: `pytest test_database_functions.py`
