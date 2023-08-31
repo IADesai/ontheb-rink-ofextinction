@@ -84,11 +84,11 @@ def get_deleted_rows(conn, delete_timestamp: str) -> list[tuple]:  # pragma: no 
         return deleted_rows
 
 
-def select_and_delete_from_db(conn, delete_timestamp: str, configuration: dict) -> list[tuple]:  # pragma: no cover
+def select_and_delete_from_db(conn, delete_timestamp: str, configuration: dict) -> None:
     """Removes rows from the plant table that are older than a day.
 
     SELECT is performed to maintain consistency with live databatase interactions in the dashboard.
-    Returns the deleted rows.
+    Function creates the .csv and uploads it to S3 before deleting any rows.
     """
     rows_to_delete = get_deleted_rows(conn, delete_timestamp)
 
@@ -100,9 +100,7 @@ def select_and_delete_from_db(conn, delete_timestamp: str, configuration: dict) 
     deleted_rows = delete_old_rows(conn, delete_timestamp)
 
     if len(rows_to_delete) != len(deleted_rows):
-        print("Inconsistency between rows being deleted and rows being archived. " +
-              "Script will continue.")
-    return rows_to_delete
+        print("Inconsistency between rows being deleted and rows being archived.")
 
 
 def create_deleted_rows_dataframe(deleted_rows: list[tuple]) -> pd.DataFrame:

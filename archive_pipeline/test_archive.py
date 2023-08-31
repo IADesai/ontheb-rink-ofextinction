@@ -3,14 +3,14 @@ Unit tests for the functions relating to the archiving of data older than 24 hou
 """
 
 from re import match
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 import os
 
 import pytest
 import pandas as pd
 
 from archive import (get_previous_day_timestamp, create_deleted_rows_dataframe,
-                      create_csv_filename, create_archived_csv_file)
+                     create_csv_filename, create_archived_csv_file, select_and_delete_from_db)
 
 
 def test_timestamp_returns_string():
@@ -60,3 +60,31 @@ def test_csv_file_created():
     create_archived_csv_file(mock_df, "unit_test_csv.csv")
     assert os.path.exists("unit_test_csv.csv")
     os.remove("unit_test_csv.csv")
+
+
+@patch("archive.get_deleted_rows")
+@patch("archive.create_deleted_rows_dataframe")
+@patch("archive.create_csv_filename")
+@patch("archive.create_archived_csv_file")
+@patch("archive.upload_csv_to_s3")
+@patch("archive.delete_old_rows")
+def test_correct_call_counts_select_and_delete(fake_delete_rows, fake_upload_csv, fake_archive_csv,
+                                               fake_csv_filename, fake_create_df, fake_get_delete_rows):
+    """Tests the correct functions are called by the select and delete function."""
+    fake_get_delete_rows.return_value = [(1, 2), (3, 4)]
+    fake_create_df.return_value = []
+    fake_csv_filename.return_value = ""
+    fake_delete_rows.return_value = [(5, 6, 7), (8, 9, 10)]
+
+    conn = MagicMock()
+    delete_timestamp = MagicMock()
+    configuration = MagicMock()
+
+    select_and_delete_from_db(conn, delete_timestamp, configuration)
+
+    assert fake_get_delete_rows.call_count == 1
+    assert fake_create_df.call_count == 1
+    assert fake_csv_filename.call_count == 1
+    assert fake_archive_csv.call_count == 1
+    assert fake_upload_csv.call_count == 1
+    assert fake_delete_rows.call_count == 1
