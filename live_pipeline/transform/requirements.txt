@@ -1,4 +1,0 @@
-pandas
-ipykernel 
-boto3
-python-dotenv
