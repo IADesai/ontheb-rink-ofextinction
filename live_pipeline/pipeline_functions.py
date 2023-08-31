@@ -1,4 +1,5 @@
-"""Libraries required for pipeline function"""
+"""Pipeline script containing all of extract, transform and load, created for AWS Lambda.
+    Libraries required for pipeline function"""
 from datetime import datetime as dt
 from os import environ
 import json
