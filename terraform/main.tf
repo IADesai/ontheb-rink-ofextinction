@@ -248,3 +248,40 @@ resource "aws_ecs_service" "dashboard-ecs-service" {
 
 
 
+resource "aws_scheduler_schedule" "live-pipeline-scheduler" {
+  name                         = "ontheb-rink-ofextinction-live-pipeline-scheduler"
+  schedule_expression_timezone = "Europe/London"
+  description                  = "Schedule to run ETL pipeline every minute"
+  state                        = "ENABLED"
+
+  flexible_time_window {
+    mode = "OFF"
+  }
+
+  schedule_expression = "cron(* * * * ? *)"
+
+  target {
+  "FunctionName": "EXAMPLEEXAMPLEEXAMPLEEXAMPLEEXAMPLE",
+  "Payload": "",
+  "InvocationType": "Event"
+  }
+}
+
+resource "aws_scheduler_schedule" "archive-pipeline-schedule" {
+  name                         = "ontheb-rink-ofextinction-archive-pipeline-schedule"
+  schedule_expression_timezone = "Europe/London"
+  description                  = "Schedule to run ETL pipeline every day"
+  state                        = "ENABLED"
+
+  flexible_time_window {
+    mode = "OFF"
+  }
+
+  schedule_expression = "cron(0 12 * * ? *)"
+
+  target {
+  "FunctionName": "arn:aws:lambda:eu-west-2:129033205317:function:ontheb-rink-ofextinction-archive",
+  "Payload": "",
+  "InvocationType": "Event"
+  }
+}
