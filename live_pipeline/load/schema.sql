@@ -1,5 +1,5 @@
-CREATE DATABASE plant_data;
-\c plant_data
+CREATE DATABASE plant_database;
+\c plant_database;
 
 
 CREATE TABLE IF NOT EXISTS sunlight (

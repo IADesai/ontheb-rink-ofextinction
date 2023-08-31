@@ -11,7 +11,7 @@ def get_db_connection(config):
             password=config['DATABASE_PASSWORD'],
             host=config['DATABASE_IP'],
             port=config['DATABASE_PORT'],
-            database='practice')
+            database=config['DATABASE_NAME'])
     except ValueError:
         return "Error connecting to database."
 
