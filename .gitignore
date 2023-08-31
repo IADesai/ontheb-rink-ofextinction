@@ -7,3 +7,4 @@ __pycache__
 *.ipynb
 *.csv
 *.json
+.DS_Store
