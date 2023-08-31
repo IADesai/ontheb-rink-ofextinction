@@ -51,7 +51,6 @@ def delete_old_rows(conn, delete_timestamp: str) -> list[tuple]:  # pragma: no c
             RETURNING *;""", (delete_timestamp,))
         deleted_rows = cur.fetchall()
         conn.commit()
-        cur.close()
         print("Rows deleted from RDS.")
         return deleted_rows
 
@@ -79,7 +78,6 @@ def get_rows_to_be_deleted(conn, delete_timestamp: str) -> list[tuple]:  # pragm
             WHERE recording_taken < %s;""", (delete_timestamp,))
         deleted_rows = cur.fetchall()
         conn.commit()
-        cur.close()
         print("Archive data fetched from RDS.")
         return deleted_rows
 
