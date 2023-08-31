@@ -1,7 +1,8 @@
+"""Libraries required for pipeline function"""
 from datetime import datetime as dt
-import pytz
 from os import environ
 import json
+import pytz
 from boto3 import client
 from dotenv import load_dotenv
 from psycopg2 import connect
@@ -54,8 +55,8 @@ def get_plants() -> dict:
             response = requests.get(
                 f"{URL}{plant_id}")
             if response.status_code == 200:
-                json = response.json()
-                plants[plant_id] = json
+                json_file = response.json()
+                plants[plant_id] = json_file
             elif response.status_code == 404:
                 logs(plant_id, missing_plants, response.status_code)
             elif response.status_code == 500:
@@ -129,7 +130,7 @@ def validate_float(float_variable: float) -> float | str:
     if float_variable != float:
         try:
             float_variable = float(float_variable)
-        except:
+        except ValueError:
             float_variable = '-'
 
     return float_variable
