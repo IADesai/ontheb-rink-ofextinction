@@ -35,5 +35,77 @@ output "cohort-8-public-subnet-ids" {
 }
 
 resource "aws_s3_bucket" "archive-bucket" {
-  bucket = "ontheb-rink-ofextinction-archive-tftest"
+  bucket = "ontheb-rink-ofextinction-archive-tf"
+}
+
+resource "aws_iam_role" "live-pipeline-lambda-role" {
+  name = "ontheb-rink-ofextinction-live-pipeline-lambda-role-tf"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_lambda_function" "live-pipeline-lambda" {
+  function_name = "ontheb-rink-ofextinction-live-pipeline-lambda-tf"
+  role          = resource.aws_iam_role.live-pipeline-lambda-role.arn
+  image_uri     = "EXAMPLEEXAMPLEEXAMPLEEXAMPLEEXAMPLE" 
+  architectures = ["x86_64"]
+  package_type  = "Image"
+
+  environment {
+    variables = {
+      INITIAL_DATABASE  = var.initial_database
+      DATABASE_NAME     = var.database_name
+      DATABASE_PASSWORD = var.database_password
+      DATABASE_PORT     = var.database_port
+      DATABASE_USERNAME = var.database_username
+      DATABASE_IP       = var.database_ip
+    }
+  }
+}
+
+resource "aws_iam_role" "archive-lambda-role" {
+  name = "ontheb-rink-ofextinction-archive-lambda-role-tf"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_lambda_function" "archive-lambda" {
+  function_name = "ontheb-rink-ofextinction-archive-lambda-tf"
+  role          = resource.aws_iam_role.archive-lambda-role.arn
+  image_uri     = "EXAMPLEEXAMPLEEXAMPLEEXAMPLEEXAMPLE" 
+  architectures = ["x86_64"]
+  package_type  = "Image"
+
+  environment {
+    variables = {
+      EXAMPLE  = var.initial_database
+      EXAMPLE     = var.database_name
+      EXAMPLE = var.database_password
+      EXAMPLE    = var.database_port
+      EXAMPLE = var.database_username
+      EXAMPLE    = var.database_ip
+    }
+  }
 }
