@@ -17,7 +17,7 @@ def create_dictionary_for_plant(raw_data: dict) -> dict:
     plant_dict = {}
     plant_dict['Botanist_Name'] = raw_data['botanist']['name']
     plant_dict['Botanist_Email'] = raw_data['botanist']['email']
-    plant_dict['Botanist_Phone'] = raw_data['botanist']['phone']
+    plant_dict['Botanist_Phone'] = str(raw_data['botanist']['phone'])
     plant_dict['Last_Watered'] = raw_data['last_watered']
     plant_dict['Plant_Name'] = raw_data['name']
 
@@ -51,11 +51,6 @@ def create_dictionary_for_plant(raw_data: dict) -> dict:
         sun_choices = format_sun_choices(raw_data['sunlight'])
         plant_dict['Sunlight'] = sun_choices
 
-    if 'humidity' in raw_data.keys():
-        plant_dict['Humidity'] = raw_data['humidity']
-    else:
-        plant_dict['Humidity'] = '-'
-
     return plant_dict
 
 
@@ -65,6 +60,8 @@ def format_sun_choices(sunlight: list) -> str:
     if len(sunlight) > 1:
         for sun_type in sorted(sunlight):
             sun_choices += sun_type.lower() + ', '
+        if sun_choices[0] == ' ':
+            sun_choices = sun_choices[1:]
         sun_choices = sun_choices[:-2]
     else:
         sun_choices = sunlight[0].lower()
@@ -139,7 +136,7 @@ def send_alert(config, task: str, message: str):
     if not isinstance(message, str):
         raise ValueError("Message should be a string")
     email = client('ses', aws_access_key_id=config["ACCESS_KEY_ID"],
-                   aws_secret_access_key=config["SECRET_ACCESS_KEY"])
+                   aws_secret_access_key=config["SECRET_ACCESS_KEY"], region_name='eu-west-2')
     email.send_email(
         Source=config["EMAIL"],
         Destination={

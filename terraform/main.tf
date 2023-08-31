@@ -103,7 +103,7 @@ resource "aws_iam_role" "archive-lambda-role" {
 resource "aws_lambda_function" "archive-lambda" {
   function_name = "ontheb-rink-ofextinction-archive-lambda-tf"
   role          = resource.aws_iam_role.archive-lambda-role.arn
-  image_uri     = "EXAMPLEEXAMPLEEXAMPLEEXAMPLEEXAMPLE" 
+  image_uri     = "129033205317.dkr.ecr.eu-west-2.amazonaws.com/ontheb-rink-ofextinction-archive:latest"
   architectures = ["x86_64"]
   package_type  = "Image"
 
@@ -277,7 +277,7 @@ resource "aws_scheduler_schedule" "archive-pipeline-schedule" {
     mode = "OFF"
   }
 
-  schedule_expression = "cron(0 12 * * ? *)"
+  schedule_expression = "cron(5 0 * * ? *)"
 
   target {
   "FunctionName": "arn:aws:lambda:eu-west-2:129033205317:function:ontheb-rink-ofextinction-archive",
