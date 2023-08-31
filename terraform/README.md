@@ -14,3 +14,4 @@ This folder contains all code and resources required for the setup of AWS resour
 ## Development Instructions
 
 - Run `terraform init`, `terraform plan`, and `terraform apply`
+- Run `terraform destroy` to delete all that was created
