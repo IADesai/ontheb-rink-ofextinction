@@ -2,9 +2,9 @@ name: Pytest
 
 on:
   push:
-    branches: [ "gawsalya-pytest " ]
+    branches: gawsalya-pytest
   pull_request:
-    branches: [ "gawsalya-pytest " ]
+    branches: gawsalya-pytest
 
 permissions:
   contents: read
