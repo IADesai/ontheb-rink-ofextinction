@@ -61,3 +61,8 @@ Contains all code and resources required for the dashboard.
 Toggle the button to switch from the live-data(default) to archived data.
 To run the file individually : `streamlit run streamlit_app.py`
 
+### Design Decisions
+- We chose to use pagination to display 10 plants at a time so the user is not overwhelmed.
+- Added temperature and moisture values for each data in bar chart to make it easier for user to view the values.
+- Toggle button to give the user power over the data they want to view instead of just displaying the live data and archive data in the same page.
+
