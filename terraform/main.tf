@@ -60,7 +60,7 @@ resource "aws_security_group" "live-rds-security-group" {
 }
 
 resource "aws_db_instance" "live-rds" {
-  identifier="db-brink-plants-data-tf"
+  identifier="db-brink-plants-data"
   allocated_storage    = 20
   db_name              = var.database_name
   engine               = "postgres"
