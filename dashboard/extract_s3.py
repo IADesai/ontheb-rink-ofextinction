@@ -1,5 +1,4 @@
-"""
-Extracts the archived csv files from bucket 
+"""Extracts the archived csv files from bucket 
 into the archived_data folder.
 """
 from os import environ, path, makedirs
@@ -9,17 +8,14 @@ from botocore.client import BaseClient
 
 
 def get_all_items_in_bucket(s3_client: BaseClient, bucket_name: str) -> list[str]:
-    """
-    Returns list[str]: A list of object keys.
-    """
+    """Returns list[str]: A list of object keys."""
+    
     return [o["Key"] for o in s3_client.list_objects(Bucket=bucket_name)["Contents"]]
 
 
 def download_file_from_bucket(s3_client: BaseClient, bucket_name,
                               object_key: str, destination_path: str) -> None:
-    """
-    Downloads the file given a bucket-name, the file name and the destination.
-    """
+    """Downloads the file given a bucket-name, the file name and the destination."""
     s3_client.download_file(bucket_name, object_key, destination_path)
 
 

@@ -1,5 +1,4 @@
-"""
-Streamlit dashboard application code
+"""Streamlit dashboard application code
 
 Module contains code for connecting to postgres database (RDS)
 and using that data to create charts for data analysis.
@@ -69,7 +68,7 @@ def get_live_database(conn: connection) -> pd.DataFrame:
 
 
 def get_selected_archive() -> pd.DataFrame:
-    """ Creates the dropdown and which archived file 
+    """Creates the dropdown and which archived file 
     to select and return for display."""
     with st.sidebar:
         st.sidebar.title("Dropdown")
@@ -77,7 +76,7 @@ def get_selected_archive() -> pd.DataFrame:
         csv_files = [f for f in listdir(
             "archived_data") if f.endswith('.csv')]
 
-        # Dropdown to select a CSV file.
+        #Dropdown to select a csv file.
         selected_csv = st.selectbox(
             "Select an archived file.", csv_files, on_change=on_toggle_or_archive_change)
         data = pd.read_csv(path.join("archived_data", selected_csv))
@@ -85,16 +84,14 @@ def get_selected_archive() -> pd.DataFrame:
 
 
 def on_toggle_or_archive_change() -> None:
-    """
-    Sets the index back to 0 for all of the graphs upon changing
-    the toggle status or which archive is being viewed
+    """Sets the index back to 0 for all of the graphs upon changing
+    the toggle status or which archive is being viewed.
     """
     st.session_state.start_index = 0
 
 
 def switch_data(db_connection: connection) -> pd.DataFrame:
-    """
-    Returns either the live data or the archived data 
+    """Returns either the live data or the archived data 
     based on if toggle is on. (The default is live data)
     """
     data = get_live_database(db_connection)
@@ -106,15 +103,15 @@ def switch_data(db_connection: connection) -> pd.DataFrame:
 
 
 def dashboard_header() -> None:
-    """Creates a header for the dashboard."""
+    """Creates a header for the dashboard and title on tab."""
+
     st.title("ONTHEB-RINK-OFEXTINCTION")
     st.markdown("An app for Liverpool Natural History Museum,\
                         #monitoring the health of our plants")
 
 
 def plot_temp_for_plants(data_df) -> None:
-    """
-    creates a bar chart with temperature in y axis
+    """creates a bar chart with temperature in y axis
     and the plant name in x axis.
     """
     st.title("Plant Temperature Bar Chart")
@@ -123,16 +120,15 @@ def plot_temp_for_plants(data_df) -> None:
     plt.figure(figsize=(10, 6))
     sns.barplot(x="species", y="temperature", data=data_df)
     plt.xlabel("Species")
-    plt.ylabel("Temperature")
+    plt.ylabel("Temperature (°C)")
     plt.xticks(rotation=45)
     plt.title("Temperature Values for Different Plants")
     st.pyplot(plt)
 
 
 def plot_soil_moisture_for_plants(data_df) -> None:
-    """
-    creates a bar chart with moisture in y axis
-    and the plant name in x axis
+    """creates a bar chart with moisture in y axis
+    and the plant name in x axis.
     """
     st.title("Plant Moisture Bar Chart")
     st.write("Bar chart showing Moisture values for different plants.")
@@ -140,7 +136,7 @@ def plot_soil_moisture_for_plants(data_df) -> None:
     plt.figure(figsize=(10, 6))
     sns.barplot(x="species", y="soil_moisture", data=data_df)
     plt.xlabel("Species")
-    plt.ylabel("Soil Moisture")
+    plt.ylabel("Soil Moisture (%)")
     plt.xticks(rotation=45)
     plt.title("Soil Moisture Readings for Different Plants")
     st.pyplot(plt)
@@ -170,6 +166,7 @@ def handle_sidebar_options(plant_data_df) -> None:
 
 
 if __name__ == "__main__":
+    st.set_page_config(page_title="Plant Monitoring Dashboard", layout="wide")
     load_dotenv()
     connection = get_db_connection()
     plant_data = switch_data(connection)
