@@ -85,13 +85,13 @@ def switch_data(db_connection: connection) -> pd.DataFrame:
     based on if toggle is on. (The default is live data)
     """
     data = get_live_database(db_connection)
-
+    toggle = False
     toggle_on = st.sidebar.toggle(
         label="Toggle for Archived Data", value=False, )
     if toggle_on:
         data = get_selected_archive()
-    
-    return data
+        st.session_state.start_index = 0
+    return data, toggle
 
 
 def dashboard_header() -> None:
@@ -134,7 +134,7 @@ def plot_soil_moisture_for_plants(data_df):
     plt.title("Soil Moisture Readings for Different Plants")
     st.pyplot(plt)
 
-def handle_sidebar_options(plant_data_df):
+def handle_sidebar_options(plant_data_df, toggle_setting):
     """Displays initial 10 rows of the data with options for next 10 and previous 10."""
     if "start_index" not in st.session_state:
         st.session_state.start_index = 0
@@ -158,6 +158,6 @@ def handle_sidebar_options(plant_data_df):
 if __name__ == "__main__":
     load_dotenv()
     connection = get_db_connection()
-    plant_data = switch_data(connection)
+    plant_data, toggle_status = switch_data(connection)
     dashboard_header()
-    handle_sidebar_options(plant_data)
+    handle_sidebar_options(plant_data, toggle_status)
