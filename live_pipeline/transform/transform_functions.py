@@ -6,7 +6,7 @@ from boto3 import client
 from dotenv import load_dotenv
 
 
-LOWER_TEMP_LIMIT = 9
+LOWER_TEMP_LIMIT = 8
 UPPER_TEMP_LIMIT = 40
 LOWER_SOIL_LIMIT = 21
 

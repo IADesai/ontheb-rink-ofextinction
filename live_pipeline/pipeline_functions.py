@@ -14,7 +14,7 @@ from psycopg2.extras import RealDictCursor
 START_ID = 1
 END_ID = 51
 URL = f"https://data-eng-plants-api.herokuapp.com/plants/"
-LOWER_TEMP_LIMIT = 9
+LOWER_TEMP_LIMIT = 8
 UPPER_TEMP_LIMIT = 40
 LOWER_SOIL_LIMIT = 21
 
