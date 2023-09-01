@@ -54,7 +54,8 @@ def get_live_database(conn: connection) -> pd.DataFrame:
     LEFT JOIN species s ON p.species_id = s.species_id
     LEFT JOIN sunlight sun ON p.sunlight_id = sun.sunlight_id
     LEFT JOIN botanist b ON p.botanist_id = b.botanist_id
-    LEFT JOIN cycle c ON p.cycle_id = c.cycle_id;
+    LEFT JOIN cycle c ON p.cycle_id = c.cycle_id
+    WHERE recording_taken > DATE_TRUNC('minute', CURRENT_TIMESTAMP::timestamp) + INTERVAL '59 minutes' AND recording_taken < DATE_TRUNC('minute', CURRENT_TIMESTAMP::timestamp) + INTERVAL '60 minutes';
     """
 
     with conn.cursor() as cur:
@@ -64,6 +65,8 @@ def get_live_database(conn: connection) -> pd.DataFrame:
     data_df = pd.DataFrame(data, columns=CSV_COLUMNS)
     data_df["last_watered"] = pd.to_datetime(data_df["last_watered"])
     data_df["recording_taken"] = pd.to_datetime(data_df["recording_taken"])
+
+    print(data_df)
 
     return data_df
 
