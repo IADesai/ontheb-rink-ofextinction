@@ -67,24 +67,30 @@ def get_live_database(conn: connection) -> pd.DataFrame:
 
     return data_df
 
-def get_selected_archive():
+
+def get_selected_archive() -> pd.DataFrame:
+    """ Creates the dropdown and which archived file 
+    to select and return for display."""
     with st.sidebar:
-            st.sidebar.title("Dropdown")
-            
-            # Get a list of CSV files in the 'archived_data' folder
-            csv_files = [f for f in os.listdir("archived_data") if f.endswith('.csv')]
-            
-            # Create a dropdown to select a CSV file by date
-            selected_csv = st.selectbox("Select an archived file by date", csv_files, on_change=on_toggle_or_archive_change)
-            data = pd.read_csv(os.path.join("archived_data", selected_csv))
+        st.sidebar.title("Dropdown")
+
+        csv_files = [f for f in os.listdir(
+            "archived_data") if f.endswith('.csv')]
+
+        # Dropdown to select a CSV file.
+        selected_csv = st.selectbox(
+            "Select an archived file.", csv_files, on_change=on_toggle_or_archive_change)
+        data = pd.read_csv(os.path.join("archived_data", selected_csv))
     return data
 
-def on_toggle_or_archive_change():
+
+def on_toggle_or_archive_change() -> None:
     """
     Sets the index back to 0 for all of the graphs upon changing
     the toggle status or which archive is being viewed
     """
     st.session_state.start_index = 0
+
 
 def switch_data(db_connection: connection) -> pd.DataFrame:
     """
@@ -109,7 +115,7 @@ def dashboard_header() -> None:
 def plot_temp_for_plants(data_df) -> None:
     """
     creates a bar chart with temperature in y axis
-    and the plant name in x axis
+    and the plant name in x axis.
     """
     st.title("Plant Temperature Bar Chart")
     st.write("Bar chart showing temperature values for different plants.")
@@ -123,7 +129,7 @@ def plot_temp_for_plants(data_df) -> None:
     st.pyplot(plt)
 
 
-def plot_soil_moisture_for_plants(data_df):
+def plot_soil_moisture_for_plants(data_df) -> None:
     """
     creates a bar chart with moisture in y axis
     and the plant name in x axis
@@ -139,23 +145,26 @@ def plot_soil_moisture_for_plants(data_df):
     plt.title("Soil Moisture Readings for Different Plants")
     st.pyplot(plt)
 
-def handle_sidebar_options(plant_data_df):
+
+def handle_sidebar_options(plant_data_df) -> None:
     """Displays initial 10 rows of the data with options for next 10 and previous 10."""
     if "start_index" not in st.session_state:
         st.session_state.start_index = 0
-    
+
     rows_to_show = 10
 
     with st.sidebar:
         st.sidebar.title("Pagination")
         if st.button("Show Previous 10 Rows"):
-            st.session_state.start_index = max(0, st.session_state.start_index - rows_to_show)
+            st.session_state.start_index = max(
+                0, st.session_state.start_index - rows_to_show)
 
         if st.button("Show Next 10 Rows"):
             st.session_state.start_index = min(st.session_state.start_index + rows_to_show,
                                                len(plant_data_df) - rows_to_show)
 
-    data_to_show = plant_data_df[st.session_state.start_index:st.session_state.start_index + rows_to_show]
+    data_to_show = plant_data_df[st.session_state.start_index:
+                                 st.session_state.start_index + rows_to_show]
     plot_temp_for_plants(data_to_show)
     plot_soil_moisture_for_plants(data_to_show)
 
