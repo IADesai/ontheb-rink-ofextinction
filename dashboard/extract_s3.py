@@ -2,9 +2,7 @@
 Extracts the archived csv files from bucket 
 into the archived_data folder.
 """
-import os
-from os import environ
-from os import path
+from os import environ, path, makedirs
 from dotenv import load_dotenv
 from boto3 import client
 from botocore.client import BaseClient
@@ -31,7 +29,7 @@ def download_csv_files_(s3_client: BaseClient, bucket_name: str,
     files = get_all_items_in_bucket(s3_client, bucket_name)
 
     downloaded_file_paths = []
-    os.makedirs(dst_folder, exist_ok=True)
+    makedirs(dst_folder, exist_ok=True)
 
     for file in files:
         if filter_by in file and file.endswith(extension):

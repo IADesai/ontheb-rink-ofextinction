@@ -5,8 +5,7 @@ Module contains code for connecting to postgres database (RDS)
 and using that data to create charts for data analysis.
 """
 import sys
-import os
-from os import environ
+from os import environ, path, listdir
 import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
@@ -54,7 +53,8 @@ def get_live_database(conn: connection) -> pd.DataFrame:
     LEFT JOIN species s ON p.species_id = s.species_id
     LEFT JOIN sunlight sun ON p.sunlight_id = sun.sunlight_id
     LEFT JOIN botanist b ON p.botanist_id = b.botanist_id
-    LEFT JOIN cycle c ON p.cycle_id = c.cycle_id;
+    LEFT JOIN cycle c ON p.cycle_id = c.cycle_id
+    WHERE recording_taken > DATE_TRUNC('minute', CURRENT_TIMESTAMP::timestamp) + INTERVAL '59 minutes' AND recording_taken < DATE_TRUNC('minute', CURRENT_TIMESTAMP::timestamp) + INTERVAL '60 minutes';
     """
 
     with conn.cursor() as cur:
@@ -74,13 +74,13 @@ def get_selected_archive() -> pd.DataFrame:
     with st.sidebar:
         st.sidebar.title("Dropdown")
 
-        csv_files = [f for f in os.listdir(
+        csv_files = [f for f in listdir(
             "archived_data") if f.endswith('.csv')]
 
         # Dropdown to select a CSV file.
         selected_csv = st.selectbox(
             "Select an archived file.", csv_files, on_change=on_toggle_or_archive_change)
-        data = pd.read_csv(os.path.join("archived_data", selected_csv))
+        data = pd.read_csv(path.join("archived_data", selected_csv))
     return data
 
 

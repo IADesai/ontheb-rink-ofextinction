@@ -48,7 +48,7 @@ Run the docker image locally
 docker run -it --env-file .env -p 8501:8501 plant-dashboard 
 ```
 
-## Folders
+## Files
 
 ### extract_s3.py
 
