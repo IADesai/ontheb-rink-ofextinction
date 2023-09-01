@@ -76,7 +76,7 @@ def get_selected_archive() -> pd.DataFrame:
         csv_files = [f for f in listdir(
             "archived_data") if f.endswith('.csv')]
 
-        #Dropdown to select a csv file.
+        # Dropdown to select a csv file.
         selected_csv = st.selectbox(
             "Select an archived file.", csv_files, on_change=on_toggle_or_archive_change)
         data = pd.read_csv(path.join("archived_data", selected_csv))
@@ -110,35 +110,24 @@ def dashboard_header() -> None:
                         #monitoring the health of our plants")
 
 
-def plot_temp_for_plants(data_df) -> None:
-    """creates a bar chart with temperature in y axis
-    and the plant name in x axis.
-    """
-    st.title("Plant Temperature Bar Chart")
-    st.write("Bar chart showing temperature values for different plants.")
+def plot_bar_chart(data_df, y_column, y_label, title, measure) -> None:
+    """Creates a bar chart with y_column in y-axis and the plant name in x-axis."""
+    st.title(title)
+    st.write(f"Bar chart showing {y_label} values for different plants.")
 
     plt.figure(figsize=(10, 6))
-    sns.barplot(x="species", y="temperature", data=data_df)
+    ax = sns.barplot(x="species", y=y_column, data=data_df)
     plt.xlabel("Species")
-    plt.ylabel("Temperature (°C)")
+    plt.ylabel(f"{y_label} ({measure})")
     plt.xticks(rotation=45)
-    plt.title("Temperature Values for Different Plants")
-    st.pyplot(plt)
+    plt.title(f"{y_label} Values for Different Plants")
 
+    # Add values as text labels on each bar with 2 decimal places
+    for p in ax.patches:
+        ax.annotate(f"{p.get_height():.2f} {measure}", (p.get_x() + p.get_width() / 2., p.get_height()),
+                    ha='center', va='center', fontsize=10, color='black', xytext=(0, 5),
+                    textcoords='offset points')
 
-def plot_soil_moisture_for_plants(data_df) -> None:
-    """creates a bar chart with moisture in y axis
-    and the plant name in x axis.
-    """
-    st.title("Plant Moisture Bar Chart")
-    st.write("Bar chart showing Moisture values for different plants.")
-
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x="species", y="soil_moisture", data=data_df)
-    plt.xlabel("Species")
-    plt.ylabel("Soil Moisture (%)")
-    plt.xticks(rotation=45)
-    plt.title("Soil Moisture Readings for Different Plants")
     st.pyplot(plt)
 
 
@@ -161,8 +150,11 @@ def handle_sidebar_options(plant_data_df) -> None:
 
     data_to_show = plant_data_df[st.session_state.start_index:
                                  st.session_state.start_index + rows_to_show]
-    plot_temp_for_plants(data_to_show)
-    plot_soil_moisture_for_plants(data_to_show)
+
+    plot_bar_chart(data_to_show, "temperature", "Temperature",
+                   "Plant Temperature Bar Chart", "°C")
+    plot_bar_chart(data_to_show, "soil_moisture",
+                   "Soil Moisture", "Plant Moisture Bar Chart", "%")
 
 
 if __name__ == "__main__":
