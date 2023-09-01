@@ -1,73 +1,166 @@
-"""Streamlit dashboard application code"""
-import os
-from os import environ
-import streamlit as st
+"""Streamlit dashboard application code
+
+Module contains code for connecting to postgres database (RDS)
+and using that data to create charts for data analysis.
+"""
+import sys
+from os import environ, path, listdir
 import pandas as pd
-from psycopg2 import connect
+import streamlit as st
+import matplotlib.pyplot as plt
+import seaborn as sns
+from psycopg2 import connect, Error
 from psycopg2.extensions import connection
 from dotenv import load_dotenv
 
-
-def get_live_data(db_conn: connection) -> pd.DataFrame:
-    """Function that gets the required data from the database connection 
-    and puts all data into pandas DataFrame form"""
-    cursor = db_conn.cursor()
-    cursor.execute("SELECT * FROM plant")
-    names = [x[0] for x in cursor.description]
-    live_plants_data = pd.DataFrame(cursor.fetchall(), columns=names)
-    return live_plants_data
+CSV_COLUMNS = [
+    "entry_id", "species", "temperature", "soil_moisture",
+    "last_watered", "recording_taken", "sunlight", "botanist_name", "cycle"
+]
 
 
-def get_archived_data() -> pd.DataFrame:
-    """Function that gets the required data from the s3 bucket and
-    puts all data into pandas DataFrame form"""
-
-    # Download all CSV files from the archive s3 bucket
-
-    csv_files = [f for f in os.listdir("archived_data") if f.endswith('.csv')]
-    dfs = []
-
-    for csv in csv_files:
-        csv_to_df = pd.read_csv("archived_data/"+csv)
-        dfs.append(csv_to_df)
-
-    archived_plants_data = pd.concat(dfs, ignore_index=True)
-
-    # Delete all CSV files from the archived_data folder locally
-
-    return archived_plants_data
+def get_db_connection():
+    """Establishes a connection with the PostgreSQL database."""
+    try:
+        conn = connect(
+            user=environ.get("DATABASE_USERNAME"),
+            password=environ.get("DATABASE_PASSWORD"),
+            host=environ.get("DATABASE_IP"),
+            port=environ.get("DATABASE_PORT"),
+            database=environ.get("DATABASE_NAME"),)
+        print("Database connection established successfully.")
+        return conn
+    except Error as err:
+        print("Error connecting to database: ", err)
+        sys.exit()
 
 
-def sidebar(db_connection: connection) -> None:
-    """Function that sets up the sidebar for the dashboard"""
-    st.sidebar.title("ONTHEB-RINK-OFEXTINCTION")
-    st.sidebar.markdown("An app for Liverpool Natural History Museum,\
-                        monitoring the health of our plants")
+def get_live_database(conn: connection) -> pd.DataFrame:
+    """Retrieve plant data from the database and return as a DataFrame."""
 
-    data = get_live_data(db_connection)
+    query = """
+    SELECT p.plant_entry_id AS entry_id,
+           s.s_name AS species,
+           p.temperature,
+           p.soil_moisture,
+           p.last_watered AS last_watered,
+           p.recording_taken AS recording_taken,
+           sun.s_description AS sunlight,
+           b.b_name AS botanist_name,
+           c.cycle_name AS cycle
+    FROM plant p
+    LEFT JOIN species s ON p.species_id = s.species_id
+    LEFT JOIN sunlight sun ON p.sunlight_id = sun.sunlight_id
+    LEFT JOIN botanist b ON p.botanist_id = b.botanist_id
+    LEFT JOIN cycle c ON p.cycle_id = c.cycle_id
+    WHERE recording_taken > DATE_TRUNC('minute', CURRENT_TIMESTAMP::timestamp) + INTERVAL '59 minutes' AND recording_taken < DATE_TRUNC('minute', CURRENT_TIMESTAMP::timestamp) + INTERVAL '60 minutes';
+    """
 
-    toggle_on = st.sidebar.toggle(label="Toggle for Archived Data", value=False, )
-    if toggle_on:
-        data = get_archived_data()
+    with conn.cursor() as cur:
+        cur.execute(query)
+        data = cur.fetchall()
 
-    with st.sidebar.expander("Expand to see information about the plants"):
-        st.markdown("Lorem Ipsum")
+    data_df = pd.DataFrame(data, columns=CSV_COLUMNS)
+    data_df["last_watered"] = pd.to_datetime(data_df["last_watered"])
+    data_df["recording_taken"] = pd.to_datetime(data_df["recording_taken"])
+
+    return data_df
+
+
+def get_selected_archive() -> pd.DataFrame:
+    """Creates the dropdown and which archived file 
+    to select and return for display."""
+    with st.sidebar:
+        st.sidebar.title("Dropdown")
+
+        csv_files = [f for f in listdir(
+            "archived_data") if f.endswith('.csv')]
+
+        # Dropdown to select a csv file.
+        selected_csv = st.selectbox(
+            "Select an archived file.", csv_files, on_change=on_toggle_or_archive_change)
+        data = pd.read_csv(path.join("archived_data", selected_csv))
     return data
 
 
+def on_toggle_or_archive_change() -> None:
+    """Sets the index back to 0 for all of the graphs upon changing
+    the toggle status or which archive is being viewed.
+    """
+    st.session_state.start_index = 0
+
+
+def switch_data(db_connection: connection) -> pd.DataFrame:
+    """Returns either the live data or the archived data 
+    based on if toggle is on. (The default is live data)
+    """
+    data = get_live_database(db_connection)
+    toggle_on = st.sidebar.toggle(
+        label="Toggle for Archived Data", value=False, on_change=on_toggle_or_archive_change)
+    if toggle_on:
+        data = get_selected_archive()
+    return data
+
+
+def dashboard_header() -> None:
+    """Creates a header for the dashboard and title on tab."""
+
+    st.title("ONTHEB-RINK-OFEXTINCTION")
+    st.markdown("An app for Liverpool Natural History Museum,\
+                        #monitoring the health of our plants")
+
+
+def plot_bar_chart(data_df, y_column, y_label, title, measure) -> None:
+    """Creates a bar chart with y_column in y-axis and the plant name in x-axis."""
+    st.title(title)
+    st.write(f"Bar chart showing {y_label} values for different plants.")
+
+    plt.figure(figsize=(10, 6))
+    ax = sns.barplot(x="species", y=y_column, data=data_df)
+    plt.xlabel("Species")
+    plt.ylabel(f"{y_label} ({measure})")
+    plt.xticks(rotation=45)
+    plt.title(f"{y_label} Values for Different Plants")
+
+    # Add values as text labels on each bar with 2 decimal places
+    for p in ax.patches:
+        ax.annotate(f"{p.get_height():.2f} {measure}", (p.get_x() + p.get_width() / 2., p.get_height()),
+                    ha='center', va='center', fontsize=10, color='black', xytext=(0, 5),
+                    textcoords='offset points')
+
+    st.pyplot(plt)
+
+
+def handle_sidebar_options(plant_data_df) -> None:
+    """Displays initial 10 rows of the data with options for next 10 and previous 10."""
+    if "start_index" not in st.session_state:
+        st.session_state.start_index = 0
+
+    rows_to_show = 10
+
+    with st.sidebar:
+        st.sidebar.title("Pagination")
+        if st.button("Show Previous 10 Rows"):
+            st.session_state.start_index = max(
+                0, st.session_state.start_index - rows_to_show)
+
+        if st.button("Show Next 10 Rows"):
+            st.session_state.start_index = min(st.session_state.start_index + rows_to_show,
+                                               len(plant_data_df) - rows_to_show)
+
+    data_to_show = plant_data_df[st.session_state.start_index:
+                                 st.session_state.start_index + rows_to_show]
+
+    plot_bar_chart(data_to_show, "temperature", "Temperature",
+                   "Plant Temperature Bar Chart", "°C")
+    plot_bar_chart(data_to_show, "soil_moisture",
+                   "Soil Moisture", "Plant Moisture Bar Chart", "%")
+
+
 if __name__ == "__main__":
-
+    st.set_page_config(page_title="Plant Monitoring Dashboard", layout="wide")
     load_dotenv()
-    config = environ
-
-    conn = connect(
-            user=config["DATABASE_USERNAME"],
-            password=config["DATABASE_PASSWORD"],
-            host=config["DATABASE_IP"],
-            port=config["DATABASE_PORT"],
-            database=config["DATABASE_NAME"],
-        )
-
-    plant_data = sidebar(conn)
-
-    st.markdown(plant_data.style.hide(axis="index").to_html(), unsafe_allow_html=True)
+    connection = get_db_connection()
+    plant_data = switch_data(connection)
+    dashboard_header()
+    handle_sidebar_options(plant_data)
