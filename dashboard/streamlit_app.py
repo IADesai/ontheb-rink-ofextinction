@@ -75,9 +75,16 @@ def get_selected_archive():
             csv_files = [f for f in os.listdir("archived_data") if f.endswith('.csv')]
             
             # Create a dropdown to select a CSV file by date
-            selected_csv = st.selectbox("Select an archived file by date", csv_files)
+            selected_csv = st.selectbox("Select an archived file by date", csv_files, on_change=on_toggle_or_archive_change)
             data = pd.read_csv(os.path.join("archived_data", selected_csv))
     return data
+
+def on_toggle_or_archive_change():
+    """
+    Sets the index back to 0 for all of the graphs upon changing
+    the toggle status or which archive is being viewed
+    """
+    st.session_state.start_index = 0
 
 def switch_data(db_connection: connection) -> pd.DataFrame:
     """
@@ -86,10 +93,9 @@ def switch_data(db_connection: connection) -> pd.DataFrame:
     """
     data = get_live_database(db_connection)
     toggle_on = st.sidebar.toggle(
-        label="Toggle for Archived Data", value=False, on_change=st.session_state.start_index = 0)
+        label="Toggle for Archived Data", value=False, on_change=on_toggle_or_archive_change)
     if toggle_on:
         data = get_selected_archive()
-        # st.session_state.start_index = 0
     return data
 
 

@@ -5,6 +5,35 @@ entry_id,species,temperature,soil_moisture,humidity,last_watered,recording_taken
 102,example4,30.0,30.0,20.0,2023-08-10 10:00:00,2023-08-29 10:00:00,full sun,example,example
 103,example5,40.0,40.0,20.0,2023-08-10 10:00:00,2023-08-29 11:00:00,full sun,example,example
 104,example6,50.0,50.0,20.0,2023-08-10 10:00:00,2023-08-29 12:00:00,full sun,example,example
-105,example7,60.0,60.0,20.0,2023-08-10 10:00:00,2023-08-29 13:00:00,full sun,example,example
-106,example8,70.0,70.0,20.0,2023-08-10 10:00:00,2023-08-30 07:00:00,full sun,example,example
-107,example9,80.0,80.0,20.0,2023-08-10 10:00:00,2023-08-30 08:00:00,full sun,example,example
+105,example2,60.0,60.0,20.0,2023-08-10 10:00:00,2023-08-29 13:00:00,full sun,example,example
+106,example3,70.0,70.0,20.0,2023-08-10 10:00:00,2023-08-30 07:00:00,full sun,example,example
+107,example3,80.0,80.0,20.0,2023-08-10 10:00:00,2023-08-30 08:00:00,full sun,example,example
+161,example,20.0,20.0,20.0,2023-08-10 10:00:00,2023-08-29 07:00:00,full sun,example,example
+162,example,20.0,20.0,20.0,2023-08-10 10:00:00,2023-08-29 08:00:00,full sun,example,example
+163,example,20.0,20.0,20.0,2023-08-10 10:00:00,2023-08-29 09:00:00,full sun,example,example
+164,example,20.0,20.0,20.0,2023-08-10 10:00:00,2023-08-29 10:00:00,full sun,example,example
+165,example,20.0,20.0,20.0,2023-08-10 10:00:00,2023-08-29 11:00:00,full sun,example,example
+166,example,20.0,20.0,20.0,2023-08-10 10:00:00,2023-08-29 12:00:00,full sun,example,example
+167,example,20.0,20.0,20.0,2023-08-10 10:00:00,2023-08-29 13:00:00,full sun,example,example
+168,example,20.0,20.0,20.0,2023-08-10 10:00:00,2023-08-30 07:00:00,full sun,example,example
+169,example,20.0,20.0,20.0,2023-08-10 10:00:00,2023-08-30 08:00:00,full sun,example,example
+5798,Aloe Vera,10.848999587474834,28.039514291861565,2023-08-31 14:11:24,2023-09-01 11:33:29,full sun,Gertrude Jekyll,Herbaceous Perennial
+5799,Ficus Elastica,14.516625346166231,31.59193824493553,2023-08-31 14:55:19,2023-09-01 11:33:30,"full sun, part sun/part shade",Carl Linnaeus,Perennial
+5800,Sansevieria Trifasciata,13.367953944468024,25.70342029807692,2023-08-31 14:05:43,2023-09-01 11:33:31,"full sun, part sun/part shade",Gertrude Jekyll,Herbaceous Perennial
+5801,Philodendron Hederaceum,10.612992176608913,28.21291097912525,2023-08-31 15:29:54,2023-09-01 11:33:31,"filtered shade, full shade",Gertrude Jekyll,Perennial
+5802,Schefflera Arboricola,13.558721377837491,28.49092693398057,2023-08-31 15:05:58,2023-09-01 11:33:32,part sun/part shade,Carl Linnaeus,Perennial
+5803,Aglaonema Commutatum,13.418795918021448,26.941915779727097,2023-08-31 14:44:15,2023-09-01 11:33:32,"full shade, part shade",Gertrude Jekyll,Herbaceous Perennial
+5804,Monstera Deliciosa,12.93987012190946,25.3230721431392,2023-08-31 14:32:46,2023-09-01 11:33:33,"part sun/part shade, full sun only if soil kept moist",Carl Linnaeus,Perennial
+5805,Tacca Integrifolia,12.318333287256957,30.996088083646622,2023-08-31 15:09:55,2023-09-01 11:33:35,"full shade, part shade",Gertrude Jekyll,Herbaceous Perennial
+5806,Psychopsis Papilio,11.09311218551399,30.863359228571426,2023-08-31 15:23:43,2023-09-01 11:33:36,-,Eliza Andrews,-
+5807,Saintpaulia Ionantha,11.077143242749557,30.371006549767444,2023-08-31 14:46:06,2023-09-01 11:33:37,"part shade, part sun/part shade",Gertrude Jekyll,Herbaceous Perennial
+5808,Gaillardia,13.408023415848945,27.44768707661692,2023-08-31 15:18:23,2023-09-01 11:33:38,full sun,Carl Linnaeus,Herbaceous Perennial
+5809,Amaryllis,9.098350869060004,31.90249740295748,2023-08-31 15:05:38,2023-09-01 11:33:39,"full sun, part sun/part shade",Eliza Andrews,Perennial
+5810,Caladium Bicolor,11.768741022317146,30.123268672574625,2023-08-31 14:45:13,2023-09-01 11:33:40,"part shade, part sun/part shade",Carl Linnaeus,Perennial
+5811,Chlorophytum Comosum,9.869231738982728,31.428543097490348,2023-08-31 15:49:43,2023-09-01 11:33:43,"full shade, part shade",Carl Linnaeus,Herbaceous Perennial
+5812,Araucaria Heterophylla,9.579770941747103,27.868552319351764,2023-08-31 14:32:40,2023-09-01 11:33:45,part shade,Gertrude Jekyll,Perennial
+5813,Begonia,9.018267711331813,28.660991147001937,2023-08-31 15:04:23,2023-09-01 11:33:47,"full sun, part shade",Gertrude Jekyll,Herbaceous Perennial
+5814,Medinilla Magnifica,13.329885266122597,32.531352142725595,2023-08-31 15:12:39,2023-09-01 11:33:49,part sun/part shade,Eliza Andrews,Perennial
+5815,Zamioculcas Zamiifolia,14.898925247262037,29.52745724707032,2023-08-31 15:31:09,2023-09-01 11:33:52,"part shade, part sun/part shade",Carl Linnaeus,Herbaceous Perennial
+5816,Crassula Ovata,9.40337534880608,28.18375745966958,2023-08-31 15:02:15,2023-09-01 11:33:53,full sun,Eliza Andrews,Perennial
+5817,Epipremnum Aureum,13.178864561154969,28.5087161713456,2023-08-31 15:03:04,2023-09-01 11:33:54,part sun/part shade,Carl Linnaeus,Perennial
