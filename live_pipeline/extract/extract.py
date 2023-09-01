@@ -7,12 +7,9 @@ from datetime import datetime
 import json
 import time
 import requests
+import aiohttp
+import asyncio
 
-"""
-I'd log the error if a single endpoint returns 500. 
-If the transform stage is being started but the dictionary being passed in is empty, 
-this should stop the pipeline script from running (and alert/log something)
-"""
 
 START_ID = 1
 END_ID = 51
@@ -47,33 +44,49 @@ class APIError(Exception):
         self.code = code
 
 
-def get_plants() -> dict:
-    """ Hit's each endpoint and fetches all the available plant data"""
-    plants = {}
+async def plant_get_request(url: str, session, plant_id: int, missing_plants: dict) -> dict:
+    """Performs a GET request for a plant."""
+    req = await session.request("GET", url=url)
+    if req.status == 200:
+        req_data = {plant_id: await req.json()}
+        return req_data
+    print(f"Plant id: {plant_id}, Status: {req.status}")
+    logs(plant_id, missing_plants, req.status)
+
+
+async def parallel_requests() -> list[dict]:
+    """Creates the instructions for a GET request for each plant."""
     missing_plants = {}
     try:
-        for plant_id in range(START_ID, END_ID):
-            response = requests.get(
-                f"{URL}{plant_id}")
-            if response.status_code == 200:
-                json = response.json()
-                plants[plant_id] = json
-            elif response.status_code == 404:
-                logs(plant_id, missing_plants, response.status_code)
-            elif response.status_code == 500:
-                print(f"500 for {plant_id}")
-                logs(plant_id, missing_plants, response.status_code)
-
-        return plants
+        async with aiohttp.ClientSession() as session:
+            tasks = []
+            for plant_id in range(START_ID, END_ID):
+                url = f"{URL}{plant_id}"
+                tasks.append(plant_get_request(
+                    url=url, session=session, plant_id=plant_id, missing_plants=missing_plants))
+            results = await asyncio.gather(*tasks, return_exceptions=True)
+            return results
     except requests.exceptions.RequestException as err:
         raise APIError(f"An exception occurred - {str(err)}")
+
+
+def transform_plants_list_to_dict(plant_data_list: list[dict]) -> dict:
+    """Converts a list of dictionaries to a single dictionary."""
+    new_data = {}
+    for d in plant_data_list:
+        if d:
+            for k in d.keys():
+                new_data[k] = d[k]
+    return new_data
 
 
 if __name__ == "__main__":
     start = time.time()
 
-    data = get_plants()
-    with open("plants.json", 'w') as plant_file:
-        json.dump(data, plant_file, indent=4)
+    plant_data = asyncio.run(parallel_requests())
+    plant_data_dict = transform_plants_list_to_dict(plant_data)
+
+    with open("plants_refactor.json", 'w') as plant_file:
+        json.dump(plant_data_dict, plant_file, indent=4)
 
     print(time.time() - start)
