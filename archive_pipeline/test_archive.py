@@ -55,11 +55,11 @@ def test_csv_file_name_includes_correct_date_formatting():
 
 def test_csv_file_created():
     """Tests a .csv file is added to the local directory."""
-    assert not os.path.exists("unit_test_csv.csv")
+    assert not os.path.exists("/tmp/unit_test_csv.csv")
     mock_df = pd.DataFrame({"a": [1, 2], "b": [3, 4]})
     create_archived_csv_file(mock_df, "unit_test_csv.csv")
-    assert os.path.exists("unit_test_csv.csv")
-    os.remove("unit_test_csv.csv")
+    assert os.path.exists("/tmp/unit_test_csv.csv")
+    os.remove("/tmp/unit_test_csv.csv")
 
 
 @patch("archive.get_rows_to_be_deleted")
