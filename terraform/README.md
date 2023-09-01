@@ -2,16 +2,35 @@
 
 This folder contains all code and resources required for the setup of AWS resources using terraform
 
-## Set-up and installation instructions
+## Configure environment variables
 
-1. Requires environment variables in a terraform.tfvars file:
+The following environment variables must be supplied in a `terraform.tfvars` file.
 
-- access_key
-- region
-- availability_zone
-- secret_key
+`access_key`
+`region`
+`availability_zone`
+`secret_key`
+`initial_database`
+`database_name`
+`database_username`
+`database_password`
+`database_ip`
+`database_port`
+`access_key_id`
+`secret_access_key`
+`email`
+`bucket_name`
 
-## Development Instructions
+## Run the code
 
-- Run `terraform init`, `terraform plan`, and `terraform apply`
-- Run `terraform destroy` to delete all that was created
+```sh
+terraform init
+terraform plan
+terraform apply
+```
+
+## Destroy the terraform
+
+```sh
+terraform destroy
+```

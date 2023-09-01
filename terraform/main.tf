@@ -34,15 +34,13 @@ output "cohort-8-public-subnet-ids" {
   ]
 }
 
-
-
+# Archive S3 bucket
 
 resource "aws_s3_bucket" "archive-bucket" {
   bucket = "ontheb-rink-ofextinction-archive"
 }
 
-
-
+# Live Pipeline Lambda
 
 resource "aws_iam_role" "live-pipeline-lambda-role" {
   name = "ontheb-rink-ofextinction-live-pipeline-lambda-role-tf"
@@ -76,15 +74,14 @@ resource "aws_lambda_function" "live-pipeline-lambda" {
       DATABASE_PORT     = var.database_port
       DATABASE_USERNAME = var.database_username
       DATABASE_IP       = var.database_ip
-      ACCESS_KEY_ID     = var.access_key_id
-      SECRET_ACCESS_KEY = var.secret_access_key
+      ACCESS_KEY_ID     = var.access_key
+      SECRET_ACCESS_KEY = var.secret_key
       EMAIL             = var.email
     }
   }
 }
 
-
-
+# Live Pipeline Lambda
 
 resource "aws_iam_role" "archive-lambda-role" {
   name = "ontheb-rink-ofextinction-archive-lambda-role-tf"
@@ -102,6 +99,8 @@ resource "aws_iam_role" "archive-lambda-role" {
     ]
   })
 }
+
+# Archive Lambda
 
 resource "aws_lambda_function" "archive-lambda" {
   function_name = "ontheb-rink-ofextinction-archive-lambda-tf"
@@ -122,8 +121,7 @@ resource "aws_lambda_function" "archive-lambda" {
   }
 }
 
-
-
+# ECS Dashboard Service
 
 resource "aws_ecs_cluster" "cluster" {
   name = "ontheb-rink-ofextinction-cluster"
@@ -221,11 +219,11 @@ resource "aws_ecs_task_definition" "dashboard-task-definition" {
         },
         {
           name = "ACCESS_KEY_ID"
-          value = var.access_key_id
+          value = var.access_key
         },
         {
           name = "SECRET_ACCESS_KEY"
-          value = var.secret_access_key
+          value = var.secret_key
         }
       ]
 
@@ -260,8 +258,7 @@ resource "aws_ecs_service" "dashboard-ecs-service" {
   }
 }
 
-
-
+# Live Pipeline Scheduler
 
 resource "aws_iam_role" "scheduler-role" {
   name = "ontheb-rink-ofextinction-scheduler-role"
@@ -313,6 +310,8 @@ resource "aws_scheduler_schedule" "live-pipeline-scheduler" {
     role_arn = "arn:aws:iam::129033205317:role/ontheb-rink-ofextinction-scheduler-role"
   }
 }
+
+# Archive Pipeline Scheduler
 
 resource "aws_scheduler_schedule" "archive-pipeline-schedule" {
   name                         = "ontheb-rink-ofextinction-archive-pipeline-schedule"

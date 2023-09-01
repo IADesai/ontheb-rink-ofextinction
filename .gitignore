@@ -8,9 +8,8 @@ __pycache__
 *.csv
 *.json
 .DS_Store
-terraform.tfvars
-terraform.tfstate
-terraform.tfstate.backup
-.terraform/providers/registry.terraform.io/hashicorp/aws/4.67.0/darwin_arm64/terraform-provider-aws_v4.67.0_x5
-.terraform.lock.hcl
-.terraform.tfstate.lock.info
+*.tfvars
+*.tfstate
+*.tfstate.backup
+*.terraform.lock.hcl
+*.terraform.tfstate.lock.info

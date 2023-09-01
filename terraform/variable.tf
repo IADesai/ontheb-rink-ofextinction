@@ -38,14 +38,6 @@ variable "database_port" {
   description = "Port used to access RDS database"
 }
 
-variable "access_key_id" {
-  description = "Key ID used to access AWS"
-}
-
-variable "secret_access_key" {
-  description = "Key for accessing specific AWS Key ID"
-}
-
 variable "email" {
   description = "Email address to send alerts to"
 }
