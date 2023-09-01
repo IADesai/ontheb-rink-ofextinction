@@ -86,10 +86,10 @@ def switch_data(db_connection: connection) -> pd.DataFrame:
     """
     data = get_live_database(db_connection)
     toggle_on = st.sidebar.toggle(
-        label="Toggle for Archived Data", value=False, )
+        label="Toggle for Archived Data", value=False, on_change=st.session_state.start_index = 0)
     if toggle_on:
         data = get_selected_archive()
-        st.session_state.start_index = 0
+        # st.session_state.start_index = 0
     return data
 
 
