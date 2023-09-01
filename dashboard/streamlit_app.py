@@ -66,7 +66,7 @@ def get_live_database(conn: connection) -> pd.DataFrame:
     data_df["last_watered"] = pd.to_datetime(data_df["last_watered"])
     data_df["recording_taken"] = pd.to_datetime(data_df["recording_taken"])
 
-    print(data_df)
+    data_df.to_csv("mock_csv.csv")
 
     return data_df
 
